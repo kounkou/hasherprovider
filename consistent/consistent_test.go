@@ -4,24 +4,37 @@ import (
 	"testing"
 )
 
-func TestWHEN_HashFunctionCalledWithNullEvent_THEN_NullPointerExceptionThrown(t *testing.T) {
-	h := ConsistentHashing{values: []int{1, 2, 3}}
-	event := "test"
-	n := 10
+func TestWHEN_AddNodeWithReplicasCalledForConsistentHashFunction_THEN_MatchNumberOfReplicas(t *testing.T) {
+	h := ConsistentHashing{
+		replicas:     3,
+		nodes:        make(map[uint32]string),
+		sortedNodes:  make([]uint32, 0),
+	}
 
-	result, values, err := h.Hash(event, n)
-	if err != nil {
-		t.Errorf("Unexpected error: %v", err)
+	h.AddNode("node1")
+
+	if len(h.nodes) != 3 {
+		t.Errorf("Expected 3 nodes, but got %d", len(h.nodes))
 	}
-	if len(values) != len(h.values) {
-		t.Errorf("Expected length of values %d, but got %d", len(h.values), len(values))
+
+	if len(h.sortedNodes) != 3 {
+		t.Errorf("Expected 3 sorted nodes, but got %d", len(h.sortedNodes))
 	}
-	for i := 0; i < len(values); i++ {
-		if values[i] != h.values[i] {
-			t.Errorf("Expected value at index %d to be %d, but got %d", i, h.values[i], values[i])
-		}
+}
+
+func TestWHEN_AddNodeWithReplicasCalledForConsistentHashFunction_THEN_MatchSameEventToSameReplica(t *testing.T) {
+	h := ConsistentHashing{
+		replicas:     3,
+		nodes:        make(map[uint32]string),
+		sortedNodes:  make([]uint32, 0),
 	}
-	if result == "" {
-		t.Errorf("Expected non-empty result")
+
+	h.AddNode("node1")
+	result1 := h.GetImmediateNode("node1")
+	h.AddNode("node2")
+	result2 := h.GetImmediateNode("node1")
+
+	if result1 != result2 {
+	    t.Errorf("Expected the Node to be the same for the same key after adding new different node")
 	}
 }

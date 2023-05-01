@@ -24,20 +24,73 @@ package consistent
 
 import (
 	"fmt"
+	"sort"
+	"hash/fnv"
 )
 
 // With consistent Hashing, the keys already assigned to a shard
 // do NOT need to be reassigned. Hence solving the issue introduced
 // by the usage of Modulo to be able to perform a consistent Hashing.
 type Hasher interface {
-	Hash(input string, n int) (string, error)
+	Hash(input string) string
 }
 
 type ConsistentHashing struct {
-	values []int
+	nodes       map[uint32]string
+	replicas    int
+	sortedNodes []uint32
 }
 
-func (h *ConsistentHashing) Hash(event string, n int) (string, []int, error) {
-	fmt.Println(event, n)
-	return "", h.values, nil
+func (h *ConsistentHashing) AddNode(node string) {
+	for i := 0; i < h.replicas; i++ {
+		hash := h.Hash(fmt.Sprintf("%s-%d", node, i))
+		h.nodes[hash] = node
+		h.sortedNodes = append(h.sortedNodes, hash)
+	}
+
+	sort.Slice(h.sortedNodes, func(i, j int) bool {
+		return h.sortedNodes[i] < h.sortedNodes[j]
+	})
+}
+
+func (h *ConsistentHashing) RemoveNode(node string) {
+	for i := 0; i < h.replicas; i++ {
+		hash := h.Hash(fmt.Sprintf("%s-%d", node, i))
+		delete(h.nodes, hash)
+		index := 1
+
+		for j, v := range h.sortedNodes {
+			if v == hash {
+				index = j
+				break
+			}
+		}
+
+		if index != -1 {
+			h.sortedNodes = append(h.sortedNodes[:index], h.sortedNodes[index+1:]...)
+		}
+	}
+}
+
+func (h *ConsistentHashing) GetImmediateNode(key string) string {
+	if len(h.nodes) == 0 {
+		return ""
+	}
+
+	hash := h.Hash(key)
+	index := sort.Search(len(h.sortedNodes), func(i int) bool {
+		return h.sortedNodes[i] >= hash
+	})
+
+	if index == len(h.sortedNodes) {
+		index = 0
+	}
+
+	return h.nodes[h.sortedNodes[index]]
+}
+
+func (h *ConsistentHashing) Hash(event string) uint32 {
+	hash := fnv.New32a()
+	hash.Write([]byte(event))
+	return hash.Sum32()
 }
