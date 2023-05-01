@@ -23,7 +23,7 @@
 package hasherProvider
 
 import (
-    "fmt"
+	"fmt"
 
 	consistent "github.com/kounkou/hasherProvider/consistent"
 	random "github.com/kounkou/hasherProvider/random"

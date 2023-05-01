@@ -23,18 +23,18 @@
 package random
 
 import (
-    "fmt"
+	"fmt"
 )
 
 type Hasher interface {
-    Hash(input string, n int) (string, error)
+	Hash(input string, n int) (string, error)
 }
 
 type RandomHashing struct {
-    values []int
+	values []int
 }
 
 func (h *RandomHashing) Hash(event string, n int) (string, []int, error) {
-    fmt.Println(event, n)
-    return "", h.values, nil
+	fmt.Println(event, n)
+	return "", h.values, nil
 }

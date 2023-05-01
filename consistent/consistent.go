@@ -23,21 +23,21 @@
 package consistent
 
 import (
-    "fmt"
+	"fmt"
 )
 
 // With consistent Hashing, the keys already assigned to a shard
 // do NOT need to be reassigned. Hence solving the issue introduced
 // by the usage of Modulo to be able to perform a consistent Hashing.
 type Hasher interface {
-    Hash(input string, n int) (string, error)
+	Hash(input string, n int) (string, error)
 }
 
 type ConsistentHashing struct {
-    values []int
+	values []int
 }
 
 func (h *ConsistentHashing) Hash(event string, n int) (string, []int, error) {
-    fmt.Println(event, n)
-    return "", h.values, nil
+	fmt.Println(event, n)
+	return "", h.values, nil
 }
