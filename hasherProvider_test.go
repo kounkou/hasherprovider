@@ -1,10 +1,7 @@
 package hasherProvider
 
 import (
-	//     "github.com/google/uuid"
-	//     "log"
 	"testing"
-	//     consistent "github.com/kounkou/hasherProvider/consistent"
 )
 
 const (
