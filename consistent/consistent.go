@@ -23,6 +23,7 @@
 package consistent
 
 import (
+	"errors"
 	"fmt"
 	"hash/fnv"
 	"sort"
@@ -31,8 +32,9 @@ import (
 // With consistent Hashing, the keys already assigned to a shard
 // do NOT need to be reassigned. Hence solving the issue introduced
 // by the usage of Modulo to be able to perform a consistent Hashing.
+
 type Hasher interface {
-	Hash(input string) string
+	Hash(uuid string, n int) (string, error)
 }
 
 type ConsistentHashing struct {
@@ -43,7 +45,7 @@ type ConsistentHashing struct {
 
 func (h *ConsistentHashing) AddNode(node string) {
 	for i := 0; i < h.replicas; i++ {
-		hash := h.Hash(fmt.Sprintf("%s-%d", node, i))
+		hash := h.computeHash(fmt.Sprintf("%s-%d", node, i))
 		h.nodes[hash] = node
 		h.sortedNodes = append(h.sortedNodes, hash)
 	}
@@ -55,7 +57,7 @@ func (h *ConsistentHashing) AddNode(node string) {
 
 func (h *ConsistentHashing) RemoveNode(node string) {
 	for i := 0; i < h.replicas; i++ {
-		hash := h.Hash(fmt.Sprintf("%s-%d", node, i))
+		hash := h.computeHash(fmt.Sprintf("%s-%d", node, i))
 		delete(h.nodes, hash)
 		index := 1
 
@@ -77,7 +79,7 @@ func (h *ConsistentHashing) GetImmediateNode(key string) string {
 		return ""
 	}
 
-	hash := h.Hash(key)
+	hash := h.computeHash(key)
 	index := sort.Search(len(h.sortedNodes), func(i int) bool {
 		return h.sortedNodes[i] >= hash
 	})
@@ -89,8 +91,19 @@ func (h *ConsistentHashing) GetImmediateNode(key string) string {
 	return h.nodes[h.sortedNodes[index]]
 }
 
-func (h *ConsistentHashing) Hash(event string) uint32 {
+func (h *ConsistentHashing) computeHash(uuid string) uint32 {
 	hash := fnv.New32a()
-	hash.Write([]byte(event))
+	hash.Write([]byte(uuid))
 	return hash.Sum32()
+}
+
+// Hash hashes the given input using a graph-based data-structure and keeps a sorted list of nodes
+// and replicas for faster retrieval.
+// It returns the immediate node to which the uuid will be assigned
+func (h *ConsistentHashing) Hash(uuid string) (string, error) {
+	if len(uuid) == 0 {
+		return "", errors.New("Expected uuid to be non-empty")
+	}
+
+	return h.GetImmediateNode(uuid), nil
 }

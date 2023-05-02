@@ -27,21 +27,25 @@ import (
 )
 
 type Hasher interface {
-	Hash(input string, shards int) (string, error)
+	Hash(input string, n int) (string, error)
 }
 
 type UniformHashing struct {
 	values []int
 }
 
-func (h *UniformHashing) Hash(event string, shards int) (int, error) {
-	if shards == 0 || len(event) == 0 {
-		return 0, errors.New("Excepted shards to be positive non 0")
+// Uniform hashing is used to distribute the uuid's associated (example events...)
+// across the a set of shards indexed.
+// Uniform hashing makes sense when the number of shards is fixed. For dynamic shards
+// please consider using `consistent hashing`
+func (h *UniformHashing) Hash(uuid string, shards int) (int, error) {
+	if shards == 0 || len(uuid) == 0 {
+		return 0, errors.New("Expected shards to be positive non 0")
 	}
 
 	hash := 0
-	for i := 0; i < len(event); i++ {
-		hash = (hash << 5) + hash + int(event[i])
+	for i := 0; i < len(uuid); i++ {
+		hash = (hash << 5) + hash + int(uuid[i])
 	}
 	return hash % shards, nil
 }

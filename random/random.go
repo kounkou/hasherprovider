@@ -35,9 +35,12 @@ type Hasher interface {
 type RandomHashing struct {
 }
 
-func (h *RandomHashing) Hash(event string, shards int) (int, error) {
-	if shards == 0 || len(event) == 0 {
-		return 0, errors.New("Excepted shards to be positive non 0")
+// Random hashing is used to distribute the uuid's associated (example events...)
+// without any structure. It's therefore the least efficient way to distribute the
+// uuid's across a set of entity (for example servers)
+func (h *RandomHashing) Hash(uuid string, shards int) (int, error) {
+	if shards == 0 || len(uuid) == 0 {
+		return 0, errors.New("Expected shards to be positive non 0")
 	}
 
 	rand.Seed(time.Now().UnixNano())
