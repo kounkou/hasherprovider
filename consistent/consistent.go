@@ -50,13 +50,17 @@ func (h *ConsistentHashing) AddNode(node string) {
 	sort.Slice(h.sortedNodes, func(i, j int) bool {
 		return h.sortedNodes[i] < h.sortedNodes[j]
 	})
+
+	if _, ok := h.nodeIndex[node]; !ok {
+		h.nodeIndex[node] = len(h.nodeIndex)
+	}
 }
 
 func (h *ConsistentHashing) RemoveNode(node string) {
 	for i := 0; i < h.replicas; i++ {
 		hash := h.computeHash(fmt.Sprintf("%s-%d", node, i))
 		delete(h.nodes, hash)
-		index := 1
+		index := -1
 
 		for j, v := range h.sortedNodes {
 			if v == hash {
@@ -74,7 +78,7 @@ func (h *ConsistentHashing) RemoveNode(node string) {
 
 func (h *ConsistentHashing) GetImmediateNode(key string) int {
 	if len(h.nodes) == 0 {
-		return 0
+		return -1
 	}
 
 	hash := h.computeHash(key)
@@ -97,11 +101,12 @@ func (h *ConsistentHashing) computeHash(uuid string) uint32 {
 
 // Hash hashes the given input using a graph-based data-structure and keeps a sorted list of nodes
 // and replicas for faster retrieval.
-// It returns the immediate node to which the uuid will be assigned
+// It returns the immediate node index to which the uuid will be assigned
 func (h ConsistentHashing) Hash(uuid string, _ int) (int, error) {
 	if len(uuid) == 0 {
-		return 0, errors.New("Expected uuid to be non-empty")
+		return -1, errors.New("Expected uuid to be non-empty")
 	}
 
 	return h.GetImmediateNode(uuid), nil
 }
+
