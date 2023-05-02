@@ -9,8 +9,6 @@ type Tuple struct {
     second int
 }
 
-const MAX_SHARDS_TO_ALLOCATE = 3
-
 func TestWHEN_HashFunctionCalledWithNullEvent_THEN_NullPointerExceptionThrown(t *testing.T) {
     hasher := &RandomHashing{}
 
@@ -49,8 +47,8 @@ func TestWHEN_HashFunctionCalledWithKeyAndShardNumbers_THEN_ResultMatchesExpecte
         result, err := hasher.Hash(v.first, v.second)
 
         if err == nil {
-            if result > MAX_SHARDS_TO_ALLOCATE {
-                t.Errorf("Hash(%s, %d) = %d; expected <= %d", v.first, v.second, result, MAX_SHARDS_TO_ALLOCATE)
+            if result >= v.second {
+                t.Errorf("Hash(%s, %d) = %d; expected <= %d", v.first, v.second, result, v.second)
             }
         }
     }

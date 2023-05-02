@@ -5,7 +5,7 @@ import (
 )
 
 func TestWHEN_AddNodeWithReplicasCalledForConsistentHashFunction_THEN_MatchNumberOfReplicas(t *testing.T) {
-	h := ConsistentHashing{
+	h := &ConsistentHashing{
 		replicas:     3,
 		nodes:        make(map[uint32]string),
 		sortedNodes:  make([]uint32, 0),
@@ -23,7 +23,7 @@ func TestWHEN_AddNodeWithReplicasCalledForConsistentHashFunction_THEN_MatchNumbe
 }
 
 func TestWHEN_AddNodeWithReplicasCalledForConsistentHashFunction_THEN_MatchSameEventToSameReplica(t *testing.T) {
-	h := ConsistentHashing{
+	h := &ConsistentHashing{
 		replicas:     3,
 		nodes:        make(map[uint32]string),
 		sortedNodes:  make([]uint32, 0),
