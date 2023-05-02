@@ -24,8 +24,8 @@ package consistent
 
 import (
 	"fmt"
-	"sort"
 	"hash/fnv"
+	"sort"
 )
 
 // With consistent Hashing, the keys already assigned to a shard
