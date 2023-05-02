@@ -26,10 +26,6 @@ import (
 	"errors"
 )
 
-type Hasher interface {
-	Hash(input string, n int) (string, error)
-}
-
 type UniformHashing struct {
 	values []int
 }
@@ -38,7 +34,7 @@ type UniformHashing struct {
 // across the a set of shards indexed.
 // Uniform hashing makes sense when the number of shards is fixed. For dynamic shards
 // please consider using `consistent hashing`
-func (h *UniformHashing) Hash(uuid string, shards int) (int, error) {
+func (h UniformHashing) Hash(uuid string, shards int) (int, error) {
 	if shards == 0 || len(uuid) == 0 {
 		return 0, errors.New("Expected shards to be positive non 0")
 	}

@@ -33,14 +33,11 @@ import (
 // do NOT need to be reassigned. Hence solving the issue introduced
 // by the usage of Modulo to be able to perform a consistent Hashing.
 
-type Hasher interface {
-	Hash(uuid string, n int) (string, error)
-}
-
 type ConsistentHashing struct {
 	nodes       map[uint32]string
 	replicas    int
 	sortedNodes []uint32
+	nodeIndex   map[string]int
 }
 
 func (h *ConsistentHashing) AddNode(node string) {
@@ -72,11 +69,12 @@ func (h *ConsistentHashing) RemoveNode(node string) {
 			h.sortedNodes = append(h.sortedNodes[:index], h.sortedNodes[index+1:]...)
 		}
 	}
+	delete(h.nodeIndex, node)
 }
 
-func (h *ConsistentHashing) GetImmediateNode(key string) string {
+func (h *ConsistentHashing) GetImmediateNode(key string) int {
 	if len(h.nodes) == 0 {
-		return ""
+		return 0
 	}
 
 	hash := h.computeHash(key)
@@ -88,7 +86,7 @@ func (h *ConsistentHashing) GetImmediateNode(key string) string {
 		index = 0
 	}
 
-	return h.nodes[h.sortedNodes[index]]
+	return h.nodeIndex[h.nodes[h.sortedNodes[index]]]
 }
 
 func (h *ConsistentHashing) computeHash(uuid string) uint32 {
@@ -100,9 +98,9 @@ func (h *ConsistentHashing) computeHash(uuid string) uint32 {
 // Hash hashes the given input using a graph-based data-structure and keeps a sorted list of nodes
 // and replicas for faster retrieval.
 // It returns the immediate node to which the uuid will be assigned
-func (h *ConsistentHashing) Hash(uuid string) (string, error) {
+func (h ConsistentHashing) Hash(uuid string, _ int) (int, error) {
 	if len(uuid) == 0 {
-		return "", errors.New("Expected uuid to be non-empty")
+		return 0, errors.New("Expected uuid to be non-empty")
 	}
 
 	return h.GetImmediateNode(uuid), nil

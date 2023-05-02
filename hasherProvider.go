@@ -36,11 +36,15 @@ const (
 	UNIFORM_HASHING    = 2
 )
 
-type HasherProvider struct {
-	hasherMap map[int]interface{}
+type Hasher interface {
+    Hash(uuid string, n int) (int, error)
 }
 
-func (h *HasherProvider) GetHasher(hashFunction int) (interface{}, error) {
+type HasherProvider struct {
+	hasherMap map[int]Hasher
+}
+
+func (h *HasherProvider) GetHasher(hashFunction int) (Hasher, error) {
 	h.initHasherMap()
 	hasher, ok := h.hasherMap[hashFunction]
 
@@ -51,7 +55,7 @@ func (h *HasherProvider) GetHasher(hashFunction int) (interface{}, error) {
 }
 
 func (h *HasherProvider) initHasherMap() {
-	h.hasherMap = map[int]interface{}{
+	h.hasherMap = map[int]Hasher{
 		CONSISTENT_HASHING: consistent.ConsistentHashing{},
 		RANDOM_HASHING:     random.RandomHashing{},
 		UNIFORM_HASHING:    uniform.UniformHashing{},

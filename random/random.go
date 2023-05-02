@@ -29,7 +29,7 @@ import (
 )
 
 type Hasher interface {
-	Hash(input string, n int) (string, error)
+    Hash(uuid string, n int) (int, error)
 }
 
 type RandomHashing struct {
@@ -38,7 +38,7 @@ type RandomHashing struct {
 // Random hashing is used to distribute the uuid's associated (example events...)
 // without any structure. It's therefore the least efficient way to distribute the
 // uuid's across a set of entity (for example servers)
-func (h *RandomHashing) Hash(uuid string, shards int) (int, error) {
+func (h RandomHashing) Hash(uuid string, shards int) (int, error) {
 	if shards == 0 || len(uuid) == 0 {
 		return 0, errors.New("Expected shards to be positive non 0")
 	}
