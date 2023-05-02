@@ -4,12 +4,6 @@ import (
 	"testing"
 )
 
-const (
-	CONSISTENT_HASHING = 0
-	RANDOM_HASHING     = 1
-	UNIFORM_HASHING    = 2
-)
-
 func TestWHEN_requestedAlgoDoesNotExist_THEN_returnError(t *testing.T) {
 	hp := HasherProvider{}
 

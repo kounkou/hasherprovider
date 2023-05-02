@@ -30,6 +30,12 @@ import (
 	uniform "github.com/kounkou/hasherProvider/uniform"
 )
 
+const (
+	CONSISTENT_HASHING = 0
+	RANDOM_HASHING     = 1
+	UNIFORM_HASHING    = 2
+)
+
 type HasherProvider struct {
 	hasherMap map[int]interface{}
 }
