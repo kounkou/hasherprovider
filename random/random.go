@@ -23,7 +23,9 @@
 package random
 
 import (
-	"fmt"
+	"math/rand"
+	"time"
+	"errors"
 )
 
 type Hasher interface {
@@ -31,10 +33,14 @@ type Hasher interface {
 }
 
 type RandomHashing struct {
-	values []int
 }
 
-func (h *RandomHashing) Hash(event string, n int) (string, []int, error) {
-	fmt.Println(event, n)
-	return "", h.values, nil
+func (h *RandomHashing) Hash(event string, shards int) (int, error) {
+    if shards == 0 || len(event) == 0 {
+        return 0, errors.New("Excepted shards to be positive non 0")
+    }
+
+    rand.Seed(time.Now().UnixNano())
+
+	return rand.Intn(shards), nil
 }
