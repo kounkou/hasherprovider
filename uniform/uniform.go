@@ -26,12 +26,6 @@ import (
 	"errors"
 )
 
-type Hasher interface {
-    Hash(uuid string, n int) (int, error)
-    AddNode(uuid string)
-    RemoveNode(uuid string)
-}
-
 type UniformHashing struct {
 	values []int
 }
