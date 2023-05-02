@@ -23,7 +23,7 @@
 package uniform
 
 import (
-    "errors"
+	"errors"
 )
 
 type Hasher interface {
@@ -35,13 +35,13 @@ type UniformHashing struct {
 }
 
 func (h *UniformHashing) Hash(event string, shards int) (int, error) {
-    if shards == 0 || len(event) == 0 {
-        return 0, errors.New("Excepted shards to be positive non 0")
-    }
+	if shards == 0 || len(event) == 0 {
+		return 0, errors.New("Excepted shards to be positive non 0")
+	}
 
 	hash := 0
 	for i := 0; i < len(event); i++ {
-	    hash = (hash << 5) + hash + int(event[i])
+		hash = (hash << 5) + hash + int(event[i])
 	}
 	return hash % shards, nil
 }
