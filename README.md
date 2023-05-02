@@ -11,28 +11,38 @@ go get github.com/kounkou/hashProvider
 # Usage
 
 ```golang
+package main
+
 import (
-  hash "github.com/kounkou/hasherProvider"
-  uuid "github.com/google/uuid"
-  "fmt"
+    "fmt"
+    uuid "github.com/google/uuid"
+    hash "github.com/kounkou/hasherProvider"
 )
 
 const (
-	CONSISTENT_HASHING = 0
-	RANDOM_HASHING     = 1
-	UNIFORM_HASHING    = 2
+    CONSISTENT_HASHING = 0
+    RANDOM_HASHING     = 1
+    UNIFORM_HASHING    = 2
 )
-  
-hasherProvider := hash.HasherProvider{}
-hasher, err := hasherProvider.GetHasher(RANDOM_HASHING)
 
-if err != nil {
-    fmt.Println("Handle error ", err)
+func main() {
+
+    hasherProvider := &hash.HasherProvider{}
+    hasher, err := hasherProvider.GetHasher(RANDOM_HASHING)
+
+    if err != nil {
+        fmt.Println("Handle error ", err)
+    }
+
+    event := uuid.New().String()
+    result, err := hasher.Hash(event, 10)
+
+    if err != nil {
+        fmt.Println("Handle error ", err)
+    }
+
+    fmt.Println("Hashing result  ", result)
 }
-
-event := uuid.New().String()
-
-fmt.Println("Hashing result  ", hasher.Hash(event))
 ```
 
 # Algorithms
