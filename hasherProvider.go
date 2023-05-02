@@ -44,7 +44,7 @@ type HasherProvider struct {
 	hasherMap map[int]Hasher
 }
 
-func (h *HasherProvider) GetHasher(hashFunction int) (Hasher, error) {
+func (h HasherProvider) GetHasher(hashFunction int) (Hasher, error) {
 	h.initHasherMap()
 	hasher, ok := h.hasherMap[hashFunction]
 
