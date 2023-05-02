@@ -30,6 +30,8 @@ import (
 
 type Hasher interface {
     Hash(uuid string, n int) (int, error)
+    AddNode(uuid string)
+    RemoveNode(uuid string)
 }
 
 type RandomHashing struct {
@@ -49,8 +51,8 @@ func (h RandomHashing) Hash(uuid string, shards int) (int, error) {
 }
 
 // Implemented for convenience
-func (h RandomHashing) AddNode(uuid string) {
+func (h RandomHashing) AddNode(_ string) {
 }
 // Implemented for convenience
-func (h RandomHashing) RemoveNode(uuid string) {
+func (h RandomHashing) RemoveNode(_ string) {
 }

@@ -26,6 +26,12 @@ import (
 	"errors"
 )
 
+type Hasher interface {
+    Hash(uuid string, n int) (int, error)
+    AddNode(uuid string)
+    RemoveNode(uuid string)
+}
+
 type UniformHashing struct {
 	values []int
 }
@@ -47,9 +53,9 @@ func (h UniformHashing) Hash(uuid string, shards int) (int, error) {
 }
 
 // Implemented for convenience
-func (h UniformHashing) AddNode(uuid string) {
+func (h UniformHashing) AddNode(_ string) {
 }
 // Implemented for convenience
-func (h UniformHashing) RemoveNode(uuid string) {
+func (h UniformHashing) RemoveNode(_ string) {
 }
 
