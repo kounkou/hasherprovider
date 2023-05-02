@@ -5,7 +5,8 @@ Hasher library that applies hashing on a given key string or uuid.
 # Installation
 
 ```bash
-go get github.com/kounkou/hashProvider
+go get github.com/google/uuid
+go get github.com/kounkou/hasherProvider
 ```
 
 # Usage
