@@ -72,7 +72,7 @@ func TestWHEN_AddAndRemoveDifferentNodeWithReplicasCalledForConsistentHashFuncti
 		t.Errorf("Expected no errors to occurr but got %s", err2)
 	}
 
-	if expected != actual && expected != 0 {
+	if expected != actual && expected >= 0 {
 		t.Errorf("Expected the Node to be `%d` but actual Node was `%d` for key `%s`", expected, actual, requestedNode)
 	}
 }

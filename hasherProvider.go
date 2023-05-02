@@ -38,6 +38,8 @@ const (
 
 type Hasher interface {
     Hash(uuid string, n int) (int, error)
+    AddNode(uuid string)
+    RemoveNode(uuid string)
 }
 
 type HasherProvider struct {
@@ -56,8 +58,8 @@ func (h HasherProvider) GetHasher(hashFunction int) (Hasher, error) {
 
 func (h *HasherProvider) initHasherMap() {
 	h.hasherMap = map[int]Hasher{
-		CONSISTENT_HASHING: consistent.ConsistentHashing{},
-		RANDOM_HASHING:     random.RandomHashing{},
-		UNIFORM_HASHING:    uniform.UniformHashing{},
+		CONSISTENT_HASHING: &consistent.ConsistentHashing{},
+		RANDOM_HASHING:     &random.RandomHashing{},
+		UNIFORM_HASHING:    &uniform.UniformHashing{},
 	}
 }

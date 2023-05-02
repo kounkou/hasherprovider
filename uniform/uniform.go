@@ -45,3 +45,11 @@ func (h UniformHashing) Hash(uuid string, shards int) (int, error) {
 	}
 	return hash % shards, nil
 }
+
+// Implemented for convenience
+func (h UniformHashing) AddNode(uuid string) {
+}
+// Implemented for convenience
+func (h UniformHashing) RemoveNode(uuid string) {
+}
+

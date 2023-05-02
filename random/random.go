@@ -47,3 +47,10 @@ func (h RandomHashing) Hash(uuid string, shards int) (int, error) {
 
 	return rand.Intn(shards), nil
 }
+
+// Implemented for convenience
+func (h RandomHashing) AddNode(uuid string) {
+}
+// Implemented for convenience
+func (h RandomHashing) RemoveNode(uuid string) {
+}
