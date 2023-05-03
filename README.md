@@ -32,7 +32,7 @@ func main() {
 	// Get the consistent hashing function
 	h, err := hasherProvider.GetHasher(CONSISTENT_HASHING)
 
-    // Set replicas entities
+    	// Set replicas entities
 	h.SetReplicas(1)
 
 	if h == nil || err != nil {
@@ -40,22 +40,22 @@ func main() {
 		return
 	}
 
-    h.AddNode("server1")
-    h.AddNode("server2")
-    h.AddNode("server3")
+    	h.AddNode("server1")
+	h.AddNode("server2")
+    	h.AddNode("server3")
 
-    result, err := h.Hash("9", 0)
+    	result, err := h.Hash("9", 0)
 
-    if err != nil {
-        fmt.Println("Error getting hash for `node2` ", err)
-    }
+    	if err != nil {
+        	fmt.Println("Error getting hash for `node2` ", err)
+    	}
 
-    if result != "server2" {
-        fmt.Errorf("Expected replica to be assigned is server1")
-        return
-    }
+    	if result != "server2" {
+        	fmt.Errorf("Expected replica to be assigned is server1")
+        	return
+    	}
 
-    fmt.Println("Success... !")
+    	fmt.Println("Success... !")
 }
 ```
 
