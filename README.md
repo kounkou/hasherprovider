@@ -12,8 +12,17 @@ This addresses the common problem of reassigning servers that arises when using 
 # Installation
 
 ```bash
-go get github.com/google/uuid
-go get github.com/kounkou/hasherProvider
+# Step 1 : Create test project directory
+mkdir test && cd test
+
+# Step 2 : Create test.go file and copy code snippet into test.go
+touch test.go
+
+# Step 3 : Fetch dependencies
+go mod init test && go mod tidy
+
+# Step 5 : launch test, and observe success !
+go run test.go
 ```
 
 # Usage
