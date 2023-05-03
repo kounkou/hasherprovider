@@ -6,9 +6,9 @@ import (
 
 func TestWHEN_AddNodeWithReplicasCalledForConsistentHashFunction_THEN_MatchNumberOfReplicas(t *testing.T) {
 	h := &ConsistentHashing{
-        Nodes:       make(map[uint32]string),
-        Replicas:    3,
-        Keys:        make([]uint32, 0),
+		Nodes:    make(map[uint32]string),
+		Replicas: 3,
+		Keys:     make([]uint32, 0),
 	}
 
 	h.AddNode("node1")
@@ -20,9 +20,9 @@ func TestWHEN_AddNodeWithReplicasCalledForConsistentHashFunction_THEN_MatchNumbe
 
 func TestWHEN_AddNodeWithReplicasCalledForConsistentHashFunction_THEN_MatchSameEventToSameReplica(t *testing.T) {
 	h := &ConsistentHashing{
-        Nodes:       make(map[uint32]string),
-        Replicas:    3,
-        Keys:        make([]uint32, 0),
+		Nodes:    make(map[uint32]string),
+		Replicas: 3,
+		Keys:     make([]uint32, 0),
 	}
 
 	h.AddNode("node1")
@@ -37,8 +37,8 @@ func TestWHEN_AddNodeWithReplicasCalledForConsistentHashFunction_THEN_MatchSameE
 
 func TestWHEN_AddAndRemoveDifferentNodeWithReplicasCalledForConsistentHashFunction_THEN_MatchSameEventToSameReplica(t *testing.T) {
 	h := &ConsistentHashing{
-        Nodes:       make(map[uint32]string),
-        Replicas:    0,
+		Nodes:    make(map[uint32]string),
+		Replicas: 0,
 	}
 
 	requestedNode := "hello"

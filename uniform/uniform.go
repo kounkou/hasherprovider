@@ -51,11 +51,12 @@ func (h UniformHashing) Hash(uuid string, shards int) (string, error) {
 // Implemented for convenience
 func (h UniformHashing) AddNode(_ string) {
 }
+
 // Implemented for convenience
 func (h UniformHashing) RemoveNode(_ string) {
 }
 
 // Implemented for convenience
 func (h *UniformHashing) SetReplicas(replicas int) {
-    h.Replicas = replicas
+	h.Replicas = replicas
 }

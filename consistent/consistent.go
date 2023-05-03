@@ -34,13 +34,13 @@ import (
 // by the usage of Modulo to be able to perform a consistent Hashing.
 
 type ConsistentHashing struct {
-	Nodes       map[uint32]string
-	Replicas    int
-	Keys        []uint32
+	Nodes    map[uint32]string
+	Replicas int
+	Keys     []uint32
 }
 
 func (h *ConsistentHashing) SetReplicas(replicas int) {
-    h.Replicas = replicas
+	h.Replicas = replicas
 }
 
 func (h *ConsistentHashing) AddNode(node string) {
@@ -73,8 +73,8 @@ func (h *ConsistentHashing) GetImmediateNode(key string) string {
 	hash := h.computeHash(key)
 
 	idx := sort.Search(len(h.Keys), func(i int) bool {
-	    return h.Keys[i] >= hash
-	    })
+		return h.Keys[i] >= hash
+	})
 
 	if idx == len(h.Keys) {
 		idx = 0
@@ -100,4 +100,3 @@ func (h *ConsistentHashing) Hash(uuid string, _ int) (string, error) {
 
 	return h.GetImmediateNode(uuid), nil
 }
-

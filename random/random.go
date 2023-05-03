@@ -25,12 +25,12 @@ package random
 import (
 	"errors"
 	"math/rand"
-	"time"
 	"strconv"
+	"time"
 )
 
 type RandomHashing struct {
-    Replicas int
+	Replicas int
 }
 
 // Random hashing is used to distribute the uuid's associated (example events...)
@@ -49,11 +49,12 @@ func (h RandomHashing) Hash(uuid string, shards int) (string, error) {
 // Implemented for convenience
 func (h RandomHashing) AddNode(_ string) {
 }
+
 // Implemented for convenience
 func (h RandomHashing) RemoveNode(_ string) {
 }
 
 // Implemented for convenience
 func (h *RandomHashing) SetReplicas(replicas int) {
-    h.Replicas = replicas
+	h.Replicas = replicas
 }
