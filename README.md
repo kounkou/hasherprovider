@@ -18,9 +18,8 @@ go get github.com/kounkou/hasherProvider
 
 # Usage
 
-Example of 3 servers hashed as represented below. In this example, we try to assign event "9" with a server.
-
-<img src="https://user-images.githubusercontent.com/2589171/235853037-ea97a826-04d7-41e6-8f39-398416968caf.png" width="600" height="400" />
+Example of 3 servers hashed with their id + replica number. In this example, we try to assign event with some random id : "9" with a server.
+As a result, the event is assigned to Server 2.
 
 ```golang
 package main
