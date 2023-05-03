@@ -51,11 +51,11 @@ func main() {
     	result, err := h.Hash("9", 0)
 
     	if err != nil {
-        	fmt.Println("Error getting hash for `node2` ", err)
+        	fmt.Println("Error getting hash for some string `9` ", err)
     	}
 
     	if result != "server2" {
-        	fmt.Errorf("Expected replica to be assigned is server1")
+        	fmt.Errorf("Expected replica to be assigned is server2")
         	return
     	}
 
