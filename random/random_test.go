@@ -2,7 +2,6 @@ package random
 
 import (
 	"testing"
-	"fmt"
 )
 
 type Tuple struct {
@@ -57,34 +56,32 @@ func TestWHEN_HashFunctionCalledWithKeyAndShardNumbers_THEN_ResultMatchesExpecte
 
 func TestRandomHashing_AddNode(t *testing.T) {
     h := RandomHashing{}
-    err := func() (err error) {
-        defer func() {
-            if r := recover(); r != nil {
-                err = fmt.Errorf("AddNode panicked: %v", r)
-            }
-        }()
-        h.AddNode("some-string-value")
-        return
+    expectedError := "AddNode method is not implemented for RandomHashing"
+
+    defer func() {
+        if r := recover(); r == nil {
+            t.Errorf("AddNode did not panic with error message '%s'", expectedError)
+        } else if r != expectedError {
+            t.Errorf("AddNode panicked with error message '%s', but expected '%s'", r, expectedError)
+        }
     }()
-    if err != nil {
-        t.Error(err)
-    }
+
+    h.AddNode("node")
 }
 
 func TestRandomHashing_RemoveNode(t *testing.T) {
     h := RandomHashing{}
-    err := func() (err error) {
-        defer func() {
-            if r := recover(); r != nil {
-                err = fmt.Errorf("AddNode panicked: %v", r)
-            }
-        }()
-        h.RemoveNode("some-string-value")
-        return
+    expectedError := "RemoveNode method is not implemented for RandomHashing"
+
+    defer func() {
+        if r := recover(); r == nil {
+            t.Errorf("RemoveNode did not panic with error message '%s'", expectedError)
+        } else if r != expectedError {
+            t.Errorf("RemoveNode panicked with error message '%s', but expected '%s'", r, expectedError)
+        }
     }()
-    if err != nil {
-        t.Error(err)
-    }
+
+    h.RemoveNode("node")
 }
 
 func TestRandomHashing_SetReplicas(t *testing.T) {

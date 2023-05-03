@@ -47,7 +47,7 @@ func TestWHEN_requestForUniformHasher_THEN_NoError(t *testing.T) {
 func TestWHEN_fullFlow_THEN_Success(t *testing.T) {
 	hp := HasherProvider{}
 
-	algo := UNIFORM_HASHING
+	algo := CONSISTENT_HASHING
 	hasher, err := hp.GetHasher(algo)
 
 	if err != nil {

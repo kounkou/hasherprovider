@@ -50,10 +50,12 @@ func (h UniformHashing) Hash(uuid string, shards int) (string, error) {
 
 // Implemented for convenience
 func (h UniformHashing) AddNode(_ string) {
+    panic("AddNode method is not implemented for UniformHashing")
 }
 
 // Implemented for convenience
 func (h UniformHashing) RemoveNode(_ string) {
+    panic("RemoveNode method is not implemented for UniformHashing")
 }
 
 // Implemented for convenience

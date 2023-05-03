@@ -48,10 +48,12 @@ func (h RandomHashing) Hash(uuid string, shards int) (string, error) {
 
 // Implemented for convenience
 func (h RandomHashing) AddNode(_ string) {
+    panic("AddNode method is not implemented for RandomHashing")
 }
 
 // Implemented for convenience
 func (h RandomHashing) RemoveNode(_ string) {
+    panic("RemoveNode method is not implemented for RandomHashing")
 }
 
 // Implemented for convenience
