@@ -80,9 +80,11 @@ func main() {
 
 # Algorithms
 
-HasherProvider currently supports 3 algorithms : 
+HasherProvider currently supports 3 algorithms. You might want to choose your hashing algorithm based on the following characteristics :
 
-- Consistent Hashing
-- Random Hashing
-- Uniform Hashing
+| Hashing Algorithm  | Load balanced | Elastic   | Fault tolerant | Decentralized |
+|--------------------|---------------|-----------|----------------|---------------|
+| Consistent Hashing | Excellent     | Excellent | Excellent      | Excellent     |
+| Random Hashing     | Good          | Poor      | Good           | Poor          |
+| Uniform Hashing    | Poor          | Good      | Poor           | Excellent     |
 
