@@ -35,7 +35,7 @@ package main
 
 import (
     "fmt"
-	"github.com/kounkou/hasherProvider"
+    "github.com/kounkou/hasherProvider"
 )
 
 const (
