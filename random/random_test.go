@@ -2,6 +2,7 @@ package random
 
 import (
 	"testing"
+	"fmt"
 )
 
 type Tuple struct {
@@ -52,4 +53,47 @@ func TestWHEN_HashFunctionCalledWithKeyAndShardNumbers_THEN_ResultMatchesExpecte
 			}
 		}
 	}
+}
+
+func TestRandomHashing_AddNode(t *testing.T) {
+    h := RandomHashing{}
+    err := func() (err error) {
+        defer func() {
+            if r := recover(); r != nil {
+                err = fmt.Errorf("AddNode panicked: %v", r)
+            }
+        }()
+        h.AddNode("some-string-value")
+        return
+    }()
+    if err != nil {
+        t.Error(err)
+    }
+}
+
+func TestRandomHashing_RemoveNode(t *testing.T) {
+    h := RandomHashing{}
+    err := func() (err error) {
+        defer func() {
+            if r := recover(); r != nil {
+                err = fmt.Errorf("AddNode panicked: %v", r)
+            }
+        }()
+        h.RemoveNode("some-string-value")
+        return
+    }()
+    if err != nil {
+        t.Error(err)
+    }
+}
+
+func TestRandomHashing_SetReplicas(t *testing.T) {
+    REPLICAS_EXPECTED := 3
+
+    h := RandomHashing{}
+    h.SetReplicas(REPLICAS_EXPECTED)
+
+    if h.Replicas != REPLICAS_EXPECTED {
+        t.Error("Expected replicas to be", REPLICAS_EXPECTED)
+    }
 }
