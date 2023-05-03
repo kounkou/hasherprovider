@@ -43,12 +43,11 @@ type Hasher interface {
 }
 
 type HasherProvider struct {
-	hasherMap map[int]Hasher
 }
 
 func (h *HasherProvider) GetHasher(hashFunction int) (Hasher, error) {
-	h.initHasherMap()
-	hasher, ok := h.hasherMap[hashFunction]
+	hasherMap := h.initHasherMap()
+	hasher, ok := hasherMap[hashFunction]
 
 	if !ok {
 		return nil, fmt.Errorf("unknown hashing function type: %d", hashFunction)
@@ -56,10 +55,14 @@ func (h *HasherProvider) GetHasher(hashFunction int) (Hasher, error) {
 	return hasher, nil
 }
 
-func (h *HasherProvider) initHasherMap() {
-	h.hasherMap = map[int]Hasher{
+func (h *HasherProvider) initHasherMap() map[int]Hasher {
+    var hasherMap map[int]Hasher
+
+	hasherMap = map[int]Hasher{
 		CONSISTENT_HASHING: &consistent.ConsistentHashing{},
 		RANDOM_HASHING:     &random.RandomHashing{},
 		UNIFORM_HASHING:    &uniform.UniformHashing{},
 	}
+
+	return hasherMap
 }
