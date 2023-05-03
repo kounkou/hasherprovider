@@ -38,10 +38,10 @@ func TestWHEN_HashFunctionCalledWithKeyAndShardNumbers_THEN_ResultMatchesExpecte
 	hasher := &UniformHashing{}
 
 	eventList := []Tuple{
-		Tuple{"1Test", 1, "0"},
-		Tuple{"2Hello", 4, "2"},
-		Tuple{"Test 3", 5, "4"},
-		Tuple{"hello", 2, "0"},
+		{"1Test", 1, "0"},
+		{"2Hello", 4, "2"},
+		{"Test 3", 5, "4"},
+		{"hello", 2, "0"},
 	}
 
 	for _, v := range eventList {

@@ -61,8 +61,8 @@ func (h *HasherProvider) initHasherMap() map[int]Hasher {
 
 	hasherMap = map[int]Hasher{
 		CONSISTENT_HASHING: &consistent.ConsistentHashing{
-            Nodes:    make(map[uint32]string),
-            Replicas: 0,
+			Nodes:    make(map[uint32]string),
+			Replicas: 0,
 		},
 		RANDOM_HASHING:  &random.RandomHashing{},
 		UNIFORM_HASHING: &uniform.UniformHashing{},

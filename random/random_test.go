@@ -37,10 +37,10 @@ func TestWHEN_HashFunctionCalledWithKeyAndShardNumbers_THEN_ResultMatchesExpecte
 	hasher := &RandomHashing{}
 
 	eventList := []Tuple{
-		Tuple{"1Test", 1},
-		Tuple{"2Hello", 4},
-		Tuple{"Test 3", 5},
-		Tuple{"hello", 2},
+		{"1Test", 1},
+		{"2Hello", 4},
+		{"Test 3", 5},
+		{"hello", 2},
 	}
 
 	for _, v := range eventList {
