@@ -38,7 +38,7 @@ type UniformHashing struct {
 // please consider using `consistent hashing`
 func (h UniformHashing) Hash(uuid string, shards int) (string, error) {
 	if shards == 0 || len(uuid) == 0 {
-		return "NA", errors.New("Expected shards to be positive non 0")
+		return "", errors.New("Expected shards to be positive non 0")
 	}
 
 	hash := 0

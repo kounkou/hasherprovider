@@ -67,7 +67,7 @@ func (h *ConsistentHashing) RemoveNode(node string) {
 
 func (h *ConsistentHashing) GetImmediateNode(key string) string {
 	if len(h.Nodes) == 0 {
-		return "NA"
+		return ""
 	}
 
 	hash := h.computeHash(key)
@@ -95,7 +95,7 @@ func (h *ConsistentHashing) computeHash(uuid string) uint32 {
 // TODO : Change parameter list to be a struct so that we can ignore second parameter
 func (h *ConsistentHashing) Hash(uuid string, _ int) (string, error) {
 	if len(uuid) == 0 {
-		return "NA", errors.New("Expected uuid to be non-empty")
+		return "", errors.New("Expected uuid to be non-empty")
 	}
 
 	return h.GetImmediateNode(uuid), nil

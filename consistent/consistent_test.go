@@ -68,3 +68,23 @@ func TestWHEN_AddAndRemoveDifferentNodeWithReplicasCalledForConsistentHashFuncti
 		t.Errorf("Expected the Node to be `%s` but actual Node was `%s` for key `%s`", expected, actual, requestedNode)
 	}
 }
+
+func TestWhen_providedWithEmptyUUID_THEN_ReturnEmptyString(t *testing.T) {
+    h := &ConsistentHashing{
+            Nodes:    make(map[uint32]string),
+            Replicas: 0,
+        }
+
+	requestedNode := ""
+
+	h.AddNode("Initial")
+	h.AddNode("test")
+	h.AddNode("TestForConsistentHashing")
+	h.AddNode("Essai")
+
+	expected, err := h.Hash(requestedNode, 4)
+
+	if err == nil || len(expected) != 0 {
+	    t.Errorf("Expected the returned node to be empty string, but got `%s`", expected)
+	}
+}
