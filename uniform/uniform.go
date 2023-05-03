@@ -29,7 +29,6 @@ import (
 
 type UniformHashing struct {
 	values   []int
-	Replicas int
 }
 
 // Uniform hashing is used to distribute the uuid's associated (example events...)
@@ -59,6 +58,6 @@ func (h UniformHashing) RemoveNode(_ string) {
 }
 
 // Implemented for convenience
-func (h *UniformHashing) SetReplicas(replicas int) {
-	h.Replicas = replicas
+func (h *UniformHashing) SetReplicas(_ int) {
+	panic("SetReplicas method is not implemented for UniformHashing")
 }
