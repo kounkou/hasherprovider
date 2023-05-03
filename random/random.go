@@ -26,22 +26,24 @@ import (
 	"errors"
 	"math/rand"
 	"time"
+	"strconv"
 )
 
 type RandomHashing struct {
+    Replicas int
 }
 
 // Random hashing is used to distribute the uuid's associated (example events...)
 // without any structure. It's therefore the least efficient way to distribute the
 // uuid's across a set of entity (for example servers)
-func (h RandomHashing) Hash(uuid string, shards int) (int, error) {
+func (h RandomHashing) Hash(uuid string, shards int) (string, error) {
 	if shards == 0 || len(uuid) == 0 {
-		return 0, errors.New("Expected shards to be positive non 0")
+		return "NA", errors.New("Expected shards to be positive non 0")
 	}
 
 	rand.Seed(time.Now().UnixNano())
 
-	return rand.Intn(shards), nil
+	return strconv.Itoa(rand.Intn(shards)), nil
 }
 
 // Implemented for convenience
@@ -49,4 +51,9 @@ func (h RandomHashing) AddNode(_ string) {
 }
 // Implemented for convenience
 func (h RandomHashing) RemoveNode(_ string) {
+}
+
+// Implemented for convenience
+func (h *RandomHashing) SetReplicas(replicas int) {
+    h.Replicas = replicas
 }

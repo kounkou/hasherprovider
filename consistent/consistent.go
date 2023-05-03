@@ -24,9 +24,9 @@ package consistent
 
 import (
 	"errors"
-	"fmt"
 	"hash/fnv"
 	"sort"
+	"strconv"
 )
 
 // With consistent Hashing, the keys already assigned to a shard
@@ -36,61 +36,51 @@ import (
 type ConsistentHashing struct {
 	Nodes       map[uint32]string
 	Replicas    int
-	SortedNodes []uint32
-	NodeIndex   map[string]int
+	Keys        []uint32
+}
+
+func (h *ConsistentHashing) SetReplicas(replicas int) {
+    h.Replicas = replicas
 }
 
 func (h *ConsistentHashing) AddNode(node string) {
 	for i := 0; i < h.Replicas; i++ {
-		hash := h.computeHash(fmt.Sprintf("%s-%d", node, i))
-		h.Nodes[hash] = node
-		h.SortedNodes = append(h.SortedNodes, hash)
+		key := h.computeHash(node + strconv.Itoa(i))
+		h.Nodes[key] = node
+		h.Keys = append(h.Keys, key)
 	}
 
-	sort.Slice(h.SortedNodes, func(i, j int) bool {
-		return h.SortedNodes[i] < h.SortedNodes[j]
-	})
-
-	if _, ok := h.NodeIndex[node]; !ok {
-		h.NodeIndex[node] = len(h.NodeIndex)
-	}
+	sort.Slice(h.Keys, func(i, j int) bool { return h.Keys[i] < h.Keys[j] })
 }
 
 func (h *ConsistentHashing) RemoveNode(node string) {
 	for i := 0; i < h.Replicas; i++ {
-		hash := h.computeHash(fmt.Sprintf("%s-%d", node, i))
-		delete(h.Nodes, hash)
-		index := -1
-
-		for j, v := range h.SortedNodes {
-			if v == hash {
-				index = j
-				break
+		key := h.computeHash(node + strconv.Itoa(i))
+		delete(h.Nodes, key)
+		for j := range h.Keys {
+			if h.Keys[j] == key {
+				h.Keys = append(h.Keys[:j], h.Keys[j+1:]...)
 			}
 		}
-
-		if index != -1 {
-			h.SortedNodes = append(h.SortedNodes[:index], h.SortedNodes[index+1:]...)
-		}
 	}
-	delete(h.NodeIndex, node)
 }
 
-func (h *ConsistentHashing) GetImmediateNode(key string) int {
+func (h *ConsistentHashing) GetImmediateNode(key string) string {
 	if len(h.Nodes) == 0 {
-		return -1
+		return "NA"
 	}
 
 	hash := h.computeHash(key)
-	index := sort.Search(len(h.SortedNodes), func(i int) bool {
-		return h.SortedNodes[i] >= hash
-	})
 
-	if index == len(h.SortedNodes) {
-		index = 0
+	idx := sort.Search(len(h.Keys), func(i int) bool {
+	    return h.Keys[i] >= hash
+	    })
+
+	if idx == len(h.Keys) {
+		idx = 0
 	}
 
-	return h.NodeIndex[h.Nodes[h.SortedNodes[index]]]
+	return h.Nodes[h.Keys[idx]]
 }
 
 func (h *ConsistentHashing) computeHash(uuid string) uint32 {
@@ -102,11 +92,10 @@ func (h *ConsistentHashing) computeHash(uuid string) uint32 {
 // Hash hashes the given input using a graph-based data-structure and keeps a sorted list of nodes
 // and Replicas for faster retrieval.
 // It returns the immediate node index to which the uuid will be assigned
-func (h *ConsistentHashing) Hash(uuid string, replicas int) (int, error) {
-    h.Replicas = replicas
-
+// TODO : Change parameter list to be a struct so that we can ignore second parameter
+func (h *ConsistentHashing) Hash(uuid string, _ int) (string, error) {
 	if len(uuid) == 0 {
-		return -1, errors.New("Expected uuid to be non-empty")
+		return "NA", errors.New("Expected uuid to be non-empty")
 	}
 
 	return h.GetImmediateNode(uuid), nil

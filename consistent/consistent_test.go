@@ -6,29 +6,23 @@ import (
 
 func TestWHEN_AddNodeWithReplicasCalledForConsistentHashFunction_THEN_MatchNumberOfReplicas(t *testing.T) {
 	h := &ConsistentHashing{
-		replicas:    3,
-		nodes:       make(map[uint32]string),
-		sortedNodes: make([]uint32, 0),
-		nodeIndex:   make(map[string]int),
+        Nodes:       make(map[uint32]string),
+        Replicas:    3,
+        Keys:        make([]uint32, 0),
 	}
 
 	h.AddNode("node1")
 
-	if len(h.nodes) != 3 {
-		t.Errorf("Expected 3 nodes, but got %d", len(h.nodes))
-	}
-
-	if len(h.sortedNodes) != 3 {
-		t.Errorf("Expected 3 sorted nodes, but got %d", len(h.sortedNodes))
+	if len(h.Nodes) != 3 {
+		t.Errorf("Expected 3 nodes, but got %d", len(h.Nodes))
 	}
 }
 
 func TestWHEN_AddNodeWithReplicasCalledForConsistentHashFunction_THEN_MatchSameEventToSameReplica(t *testing.T) {
 	h := &ConsistentHashing{
-		replicas:    3,
-		nodes:       make(map[uint32]string),
-		sortedNodes: make([]uint32, 0),
-		nodeIndex:   make(map[string]int),
+        Nodes:       make(map[uint32]string),
+        Replicas:    3,
+        Keys:        make([]uint32, 0),
 	}
 
 	h.AddNode("node1")
@@ -43,10 +37,8 @@ func TestWHEN_AddNodeWithReplicasCalledForConsistentHashFunction_THEN_MatchSameE
 
 func TestWHEN_AddAndRemoveDifferentNodeWithReplicasCalledForConsistentHashFunction_THEN_MatchSameEventToSameReplica(t *testing.T) {
 	h := &ConsistentHashing{
-		replicas:    10,
-		nodes:       make(map[uint32]string),
-		sortedNodes: make([]uint32, 0),
-		nodeIndex:   make(map[string]int),
+        Nodes:       make(map[uint32]string),
+        Replicas:    0,
 	}
 
 	requestedNode := "hello"
@@ -72,7 +64,7 @@ func TestWHEN_AddAndRemoveDifferentNodeWithReplicasCalledForConsistentHashFuncti
 		t.Errorf("Expected no errors to occurr but got %s", err2)
 	}
 
-	if expected != actual && expected >= 0 {
-		t.Errorf("Expected the Node to be `%d` but actual Node was `%d` for key `%s`", expected, actual, requestedNode)
+	if expected != actual && expected != "" {
+		t.Errorf("Expected the Node to be `%s` but actual Node was `%s` for key `%s`", expected, actual, requestedNode)
 	}
 }

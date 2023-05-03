@@ -24,26 +24,28 @@ package uniform
 
 import (
 	"errors"
+	"strconv"
 )
 
 type UniformHashing struct {
-	values []int
+	values   []int
+	Replicas int
 }
 
 // Uniform hashing is used to distribute the uuid's associated (example events...)
 // across the a set of shards indexed.
 // Uniform hashing makes sense when the number of shards is fixed. For dynamic shards
 // please consider using `consistent hashing`
-func (h UniformHashing) Hash(uuid string, shards int) (int, error) {
+func (h UniformHashing) Hash(uuid string, shards int) (string, error) {
 	if shards == 0 || len(uuid) == 0 {
-		return 0, errors.New("Expected shards to be positive non 0")
+		return "NA", errors.New("Expected shards to be positive non 0")
 	}
 
 	hash := 0
 	for i := 0; i < len(uuid); i++ {
 		hash = (hash << 5) + hash + int(uuid[i])
 	}
-	return hash % shards, nil
+	return strconv.Itoa(hash % shards), nil
 }
 
 // Implemented for convenience
@@ -53,3 +55,7 @@ func (h UniformHashing) AddNode(_ string) {
 func (h UniformHashing) RemoveNode(_ string) {
 }
 
+// Implemented for convenience
+func (h *UniformHashing) SetReplicas(replicas int) {
+    h.Replicas = replicas
+}

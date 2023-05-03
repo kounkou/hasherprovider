@@ -7,7 +7,7 @@ import (
 type Tuple struct {
 	first  string
 	second int
-	third  int
+	third  string
 }
 
 func TestWHEN_HashFunctionCalledWithNullEvent_THEN_NullPointerExceptionThrown(t *testing.T) {
@@ -38,10 +38,10 @@ func TestWHEN_HashFunctionCalledWithKeyAndShardNumbers_THEN_ResultMatchesExpecte
 	hasher := &UniformHashing{}
 
 	eventList := []Tuple{
-		Tuple{"1Test", 1, 0},
-		Tuple{"2Hello", 4, 2},
-		Tuple{"Test 3", 5, 4},
-		Tuple{"hello", 2, 0},
+		Tuple{"1Test", 1, "0"},
+		Tuple{"2Hello", 4, "2"},
+		Tuple{"Test 3", 5, "4"},
+		Tuple{"hello", 2, "0"},
 	}
 
 	for _, v := range eventList {
@@ -49,7 +49,7 @@ func TestWHEN_HashFunctionCalledWithKeyAndShardNumbers_THEN_ResultMatchesExpecte
 
 		if err == nil {
 			if result != v.third {
-				t.Errorf("Hash(%s, %d) = %d; expected %d", v.first, v.second, result, v.third)
+				t.Errorf("Hash(%s, %d) = %s; expected %s", v.first, v.second, result, v.third)
 			}
 		}
 	}

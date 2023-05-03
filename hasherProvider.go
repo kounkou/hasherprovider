@@ -37,9 +37,10 @@ const (
 )
 
 type Hasher interface {
-	Hash(uuid string, n int) (int, error)
+	Hash(uuid string, n int) (string, error)
 	AddNode(uuid string)
 	RemoveNode(uuid string)
+	SetReplicas(replicas int)
 }
 
 type HasherProvider struct {
@@ -60,10 +61,8 @@ func (h *HasherProvider) initHasherMap() map[int]Hasher {
 
 	hasherMap = map[int]Hasher{
 		CONSISTENT_HASHING: &consistent.ConsistentHashing{
-		    Nodes:       make(map[uint32]string),
-			Replicas:    0,
-			SortedNodes: make([]uint32, 0),
-			NodeIndex:   make(map[string]int),
+            Nodes:    make(map[uint32]string),
+            Replicas: 0,
 		},
 		RANDOM_HASHING:  &random.RandomHashing{},
 		UNIFORM_HASHING: &uniform.UniformHashing{},

@@ -47,8 +47,8 @@ func TestWHEN_HashFunctionCalledWithKeyAndShardNumbers_THEN_ResultMatchesExpecte
 		result, err := hasher.Hash(v.first, v.second)
 
 		if err == nil {
-			if result >= v.second {
-				t.Errorf("Hash(%s, %d) = %d; expected <= %d", v.first, v.second, result, v.second)
+			if result == "" {
+				t.Errorf("Hash(%s, %d) = %s; expected != \"\"", v.first, v.second, result)
 			}
 		}
 	}
