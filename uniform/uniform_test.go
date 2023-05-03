@@ -86,12 +86,17 @@ func TestUniformHashing_RemoveNode(t *testing.T) {
 }
 
 func TestUniformHashing_SetReplicas(t *testing.T) {
-    REPLICAS_EXPECTED := 3
-
     h := UniformHashing{}
-    h.SetReplicas(REPLICAS_EXPECTED)
 
-    if h.Replicas != REPLICAS_EXPECTED {
-        t.Error("Expected replicas to be", REPLICAS_EXPECTED)
-    }
+    expectedError := "SetReplicas method is not implemented for UniformHashing"
+
+    defer func() {
+        if r := recover(); r == nil {
+            t.Errorf("SetReplicas did not panic with error message '%s'", expectedError)
+        } else if r != expectedError {
+            t.Errorf("SetReplicas panicked with error message '%s', but expected '%s'", r, expectedError)
+        }
+    }()
+
+    h.SetReplicas(4)
 }

@@ -30,7 +30,6 @@ import (
 )
 
 type RandomHashing struct {
-	Replicas int
 }
 
 // Random hashing is used to distribute the uuid's associated (example events...)
@@ -57,6 +56,6 @@ func (h RandomHashing) RemoveNode(_ string) {
 }
 
 // Implemented for convenience
-func (h *RandomHashing) SetReplicas(replicas int) {
-	h.Replicas = replicas
+func (h *RandomHashing) SetReplicas(_ int) {
+	panic("SetReplicas method is not implemented for RandomHashing")
 }

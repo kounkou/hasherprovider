@@ -85,12 +85,17 @@ func TestRandomHashing_RemoveNode(t *testing.T) {
 }
 
 func TestRandomHashing_SetReplicas(t *testing.T) {
-    REPLICAS_EXPECTED := 3
-
     h := RandomHashing{}
-    h.SetReplicas(REPLICAS_EXPECTED)
 
-    if h.Replicas != REPLICAS_EXPECTED {
-        t.Error("Expected replicas to be", REPLICAS_EXPECTED)
-    }
+    expectedError := "SetReplicas method is not implemented for RandomHashing"
+
+    defer func() {
+        if r := recover(); r == nil {
+            t.Errorf("SetReplicas did not panic with error message '%s'", expectedError)
+        } else if r != expectedError {
+            t.Errorf("SetReplicas panicked with error message '%s', but expected '%s'", r, expectedError)
+        }
+    }()
+
+    h.SetReplicas(4)
 }

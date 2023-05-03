@@ -48,7 +48,7 @@ func TestWHEN_AddAndRemoveDifferentNodeWithReplicasCalledForConsistentHashFuncti
 	h.AddNode("TestForConsistentHashing")
 	h.AddNode("Essai")
 
-	expected, err1 := h.Hash(requestedNode, 4)
+	expected, err1 := h.Hash(requestedNode, 0)
 
 	if err1 != nil {
 		t.Errorf("Expected no errors to occur but got %s", err1)
@@ -58,7 +58,7 @@ func TestWHEN_AddAndRemoveDifferentNodeWithReplicasCalledForConsistentHashFuncti
 	h.RemoveNode("Essai")
 	h.RemoveNode("test")
 
-	actual, err2 := h.Hash(requestedNode, 4)
+	actual, err2 := h.Hash(requestedNode, 0)
 
 	if err2 != nil {
 		t.Errorf("Expected no errors to occurr but got %s", err2)
@@ -69,7 +69,7 @@ func TestWHEN_AddAndRemoveDifferentNodeWithReplicasCalledForConsistentHashFuncti
 	}
 }
 
-func TestWhen_providedWithEmptyUUID_THEN_ReturnEmptyString(t *testing.T) {
+func TestWHEN_providedWithEmptyUUID_THEN_ReturnEmptyString(t *testing.T) {
     h := &ConsistentHashing{
             Nodes:    make(map[uint32]string),
             Replicas: 0,
@@ -82,9 +82,32 @@ func TestWhen_providedWithEmptyUUID_THEN_ReturnEmptyString(t *testing.T) {
 	h.AddNode("TestForConsistentHashing")
 	h.AddNode("Essai")
 
-	expected, err := h.Hash(requestedNode, 4)
+	expected, err := h.Hash(requestedNode, 0)
 
 	if err == nil || len(expected) != 0 {
 	    t.Errorf("Expected the returned node to be empty string, but got `%s`", expected)
 	}
+}
+
+
+func TestWHEN_SetReplicas_THEN_ReplicasCorrectlySet(t *testing.T) {
+    h := &ConsistentHashing{
+            Nodes:    make(map[uint32]string),
+            Replicas: 0,
+        }
+
+    h.SetReplicas(100)
+    h.AddNode("test")
+
+    if len(h.Nodes) != 100 {
+        t.Errorf("Expected the number of nodes to be a factor of the number of replicas, but got %d", len(h.Nodes))
+    }
+
+    h.SetReplicas(1000)
+    h.AddNode("test-server-x")
+    h.AddNode("test-server-y")
+
+    if len(h.Nodes) != 2100 {
+        t.Errorf("Expected the number of nodes to be a factor of the number of replicas, but got %d", len(h.Nodes))
+    }
 }
