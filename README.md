@@ -4,7 +4,9 @@
 
 # hasherProvider
 
-Hasher library that applies hashing on a given key string or uuid.
+The Hasher library implements a hashing algorithm on a given key string or UUID and returns the server to which the request should be sent. 
+Consistent hashing is one such algorithm that minimizes the number of updates required to associate the request with the appropriate server. 
+This addresses the common problem of reassigning servers that arises when using the modulo operation.
 
 # Installation
 
