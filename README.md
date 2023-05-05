@@ -33,22 +33,10 @@ Example :
 Here is the structure of the `ConsistentHashing` object.
 
 ```
-{
-	map[
-		1205995440:server2 
-		1306808249:server3 
-		3655969099:server1
-	], 
-	1, 
-	[
-		1205995440 
-		1306808249 
-		3655969099
-	]
-}
+1205995440:server2 --> 1306808249:server3 --> 3655969099:server1
 ```
 
-In this example, we hash `9` which has hash
+In this example, we hash `9` which has hash 
 
 ```
 1007465396
@@ -57,10 +45,7 @@ In this example, we hash `9` which has hash
 Let's see the representation of the both output on an hypothetical graph, and let's insert the `9` inside the graph : 
 
 ```
-                       1007465396
-   1205995440:server2 ----`9`---- 3655969099:server1
-        |                                   |
-	|_______ 1306808249:server3 _______ |
+1007465396:9 --> 1205995440:server2 --> 1306808249:server3 --> 3655969099:server1
 ```
 
 This means that the closest node clockwise for the `9` is server2, which is expected result for below code.
