@@ -28,8 +28,42 @@ go run test.go
 
 # Usage
 
-Example of 3 servers hashed with their id + replica number. In this example, we try to assign event with some random id : "9" with a server.
-As a result, the event is assigned to Server 2.
+Example : 
+3 servers are hashed based on their id + replica number. 
+Here is the structure of the `ConsistentHashing` object.
+
+```
+{
+	map[
+		1205995440:server2 
+		1306808249:server3 
+		3655969099:server1
+	], 
+	1, 
+	[
+		1205995440 
+		1306808249 
+		3655969099
+	]
+}
+```
+
+In this example, we hash `9` which has hash
+
+```
+1007465396
+```
+
+Let's see the representation of the both output on an hypothetical graph, and let's insert the `9` inside the graph : 
+
+```
+                       1007465396
+   1205995440:server2 ----`9`---- 3655969099:server1
+        |                                   |
+	|_______ 1306808249:server3 _______ |
+```
+
+This means that the closest node clockwise for the `9` is server2, which is expected result for below code.
 
 ```golang
 package main
