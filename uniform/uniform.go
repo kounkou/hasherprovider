@@ -25,10 +25,12 @@ package uniform
 import (
 	"errors"
 	"strconv"
+	"log"
 )
 
 type UniformHashing struct {
-	values   []int
+	values []int
+	Logger *log.Logger
 }
 
 // Uniform hashing is used to distribute the uuid's associated (example events...)
@@ -37,6 +39,7 @@ type UniformHashing struct {
 // please consider using `consistent hashing`
 func (h UniformHashing) Hash(uuid string, shards int) (string, error) {
 	if shards == 0 || len(uuid) == 0 {
+	    h.Logger.Println("[ERROR] Uniform Hashing ", uuid, " failed with ", shards, " shards")
 		return "", errors.New("Expected shards to be positive non 0")
 	}
 

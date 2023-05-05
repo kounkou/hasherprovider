@@ -2,6 +2,8 @@ package consistent
 
 import (
 	"testing"
+	"log"
+	"os"
 )
 
 func TestWHEN_AddNodeWithReplicasCalledForConsistentHashFunction_THEN_MatchNumberOfReplicas(t *testing.T) {
@@ -9,6 +11,7 @@ func TestWHEN_AddNodeWithReplicasCalledForConsistentHashFunction_THEN_MatchNumbe
 		Nodes:    make(map[uint32]string),
 		Replicas: 3,
 		Keys:     make([]uint32, 0),
+		Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
 	}
 
 	h.AddNode("node1")
@@ -23,6 +26,7 @@ func TestWHEN_AddNodeWithReplicasCalledForConsistentHashFunction_THEN_MatchSameE
 		Nodes:    make(map[uint32]string),
 		Replicas: 3,
 		Keys:     make([]uint32, 0),
+		Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
 	}
 
 	h.AddNode("node1")
@@ -39,6 +43,7 @@ func TestWHEN_AddAndRemoveDifferentNodeWithReplicasCalledForConsistentHashFuncti
 	h := &ConsistentHashing{
 		Nodes:    make(map[uint32]string),
 		Replicas: 0,
+		Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
 	}
 
 	requestedNode := "hello"
@@ -73,6 +78,7 @@ func TestWHEN_providedWithEmptyUUID_THEN_ReturnEmptyString(t *testing.T) {
     h := &ConsistentHashing{
             Nodes:    make(map[uint32]string),
             Replicas: 0,
+            Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
         }
 
 	requestedNode := ""
@@ -94,6 +100,7 @@ func TestWHEN_SetReplicas_THEN_ReplicasCorrectlySet(t *testing.T) {
     h := &ConsistentHashing{
             Nodes:    make(map[uint32]string),
             Replicas: 0,
+            Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
         }
 
     h.SetReplicas(100)

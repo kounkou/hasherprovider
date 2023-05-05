@@ -24,6 +24,8 @@ package hasherProvider
 
 import (
 	"fmt"
+	"log"
+	"os"
 
 	consistent "github.com/kounkou/hasherProvider/consistent"
 	random "github.com/kounkou/hasherProvider/random"
@@ -44,29 +46,46 @@ type Hasher interface {
 }
 
 type HasherProvider struct {
+    Logger *log.Logger
 }
 
 func (h *HasherProvider) GetHasher(hashFunction int) (Hasher, error) {
+    if h.Logger == nil {
+        h.Logger = log.New(os.Stdout, "hasherProvider ", log.LstdFlags)
+        h.Logger.Println("[WARN] Setting default logger")
+    }
+
+    h.Logger.Println("[INFO] Getting Hasher with hashing algorithm ", hashFunction)
+
 	hasherMap := h.initHasherMap()
 	hasher, ok := hasherMap[hashFunction]
 
 	if !ok {
+	    h.Logger.Println("[ERROR] Getting the hasher failed for ", hashFunction)
 		return nil, fmt.Errorf("unknown hashing function type: %d", hashFunction)
 	}
+
+	h.Logger.Println("[INFO] Getting Hasher with hashing algorithm ", hashFunction, " succeeded")
+
 	return hasher, nil
 }
 
 func (h *HasherProvider) initHasherMap() map[int]Hasher {
+    h.Logger.Println("[INFO] InitHasherMap")
+
 	var hasherMap map[int]Hasher
 
 	hasherMap = map[int]Hasher{
 		CONSISTENT_HASHING: &consistent.ConsistentHashing{
 			Nodes:    make(map[uint32]string),
 			Replicas: 0,
+			Logger:   h.Logger,
 		},
 		RANDOM_HASHING:  &random.RandomHashing{},
 		UNIFORM_HASHING: &uniform.UniformHashing{},
 	}
+
+	h.Logger.Println("[INFO] InitHasherMap successfully")
 
 	return hasherMap
 }

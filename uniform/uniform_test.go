@@ -2,6 +2,8 @@ package uniform
 
 import (
 	"testing"
+	"log"
+	"os"
 )
 
 type Tuple struct {
@@ -11,7 +13,9 @@ type Tuple struct {
 }
 
 func TestWHEN_HashFunctionCalledWithNullEvent_THEN_NullPointerExceptionThrown(t *testing.T) {
-	hasher := &UniformHashing{}
+	hasher := &UniformHashing{
+	    Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
+	}
 
 	event := ""
 	n := 3
@@ -23,7 +27,9 @@ func TestWHEN_HashFunctionCalledWithNullEvent_THEN_NullPointerExceptionThrown(t 
 }
 
 func TestWHEN_HashFunctionCalledWithNullShards_THEN_NullPointerExceptionThrown(t *testing.T) {
-	hasher := &UniformHashing{}
+	hasher := &UniformHashing{
+	    Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
+	}
 
 	event := "1"
 	n := 0
@@ -35,7 +41,9 @@ func TestWHEN_HashFunctionCalledWithNullShards_THEN_NullPointerExceptionThrown(t
 }
 
 func TestWHEN_HashFunctionCalledWithKeyAndShardNumbers_THEN_ResultMatchesExpected(t *testing.T) {
-	hasher := &UniformHashing{}
+	hasher := &UniformHashing{
+	    Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
+	}
 
 	eventList := []Tuple{
 		{"1Test", 1, "0"},
@@ -56,7 +64,10 @@ func TestWHEN_HashFunctionCalledWithKeyAndShardNumbers_THEN_ResultMatchesExpecte
 }
 
 func TestUniformHashing_AddNode(t *testing.T) {
-    h := UniformHashing{}
+    h := UniformHashing{
+        Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
+    }
+
     expectedError := "AddNode method is not implemented for UniformHashing"
 
     defer func() {
@@ -71,7 +82,10 @@ func TestUniformHashing_AddNode(t *testing.T) {
 }
 
 func TestUniformHashing_RemoveNode(t *testing.T) {
-    h := UniformHashing{}
+    h := UniformHashing{
+        Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
+    }
+
     expectedError := "RemoveNode method is not implemented for UniformHashing"
 
     defer func() {
@@ -86,7 +100,9 @@ func TestUniformHashing_RemoveNode(t *testing.T) {
 }
 
 func TestUniformHashing_SetReplicas(t *testing.T) {
-    h := UniformHashing{}
+    h := UniformHashing{
+        Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
+    }
 
     expectedError := "SetReplicas method is not implemented for UniformHashing"
 

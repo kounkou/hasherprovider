@@ -27,9 +27,11 @@ import (
 	"math/rand"
 	"strconv"
 	"time"
+	"log"
 )
 
 type RandomHashing struct {
+    Logger *log.Logger
 }
 
 // Random hashing is used to distribute the uuid's associated (example events...)
@@ -37,6 +39,7 @@ type RandomHashing struct {
 // uuid's across a set of entity (for example servers)
 func (h RandomHashing) Hash(uuid string, shards int) (string, error) {
 	if shards == 0 || len(uuid) == 0 {
+	    h.Logger.Println("[ERROR] Random Hashing ", uuid, " failed with ", shards, " shards")
 		return "", errors.New("Expected shards to be positive non 0")
 	}
 

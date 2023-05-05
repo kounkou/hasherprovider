@@ -27,6 +27,7 @@ import (
 	"hash/fnv"
 	"sort"
 	"strconv"
+	"log"
 )
 
 // With consistent Hashing, the keys already assigned to a shard
@@ -37,6 +38,7 @@ type ConsistentHashing struct {
 	Nodes    map[uint32]string
 	Replicas int
 	Keys     []uint32
+	Logger   *log.Logger
 }
 
 func (h *ConsistentHashing) SetReplicas(replicas int) {
@@ -44,16 +46,22 @@ func (h *ConsistentHashing) SetReplicas(replicas int) {
 }
 
 func (h *ConsistentHashing) AddNode(node string) {
+    h.Logger.Println("[INFO] AddNode ", node)
+
 	for i := 0; i < h.Replicas; i++ {
 		key := h.computeHash(node + strconv.Itoa(i))
 		h.Nodes[key] = node
 		h.Keys = append(h.Keys, key)
 	}
 
-	sort.Slice(h.Keys, func(i, j int) bool { return h.Keys[i] < h.Keys[j] })
+	sort.Slice(h.Keys, func(i, j int) bool {
+	    return h.Keys[i] < h.Keys[j]
+	})
 }
 
 func (h *ConsistentHashing) RemoveNode(node string) {
+    h.Logger.Println("[INFO] RemoveNode ", node)
+
 	for i := 0; i < h.Replicas; i++ {
 		key := h.computeHash(node + strconv.Itoa(i))
 		delete(h.Nodes, key)
@@ -66,6 +74,8 @@ func (h *ConsistentHashing) RemoveNode(node string) {
 }
 
 func (h *ConsistentHashing) GetImmediateNode(key string) string {
+    h.Logger.Println("[INFO] GetImmediateNode ", key)
+
 	if len(h.Nodes) == 0 {
 		return ""
 	}
@@ -95,8 +105,11 @@ func (h *ConsistentHashing) computeHash(uuid string) uint32 {
 // TODO : Change parameter list to be a struct so that we can ignore second parameter
 func (h *ConsistentHashing) Hash(uuid string, _ int) (string, error) {
 	if len(uuid) == 0 {
+	    h.Logger.Println("[ERROR] Consistent Hashing ", uuid, " failed")
 		return "", errors.New("Expected uuid to be non-empty")
 	}
+
+	h.Logger.Println("[INFO] Hashing ", uuid, " succeeded")
 
 	return h.GetImmediateNode(uuid), nil
 }
