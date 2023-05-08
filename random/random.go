@@ -48,17 +48,26 @@ func (h RandomHashing) Hash(uuid string, shards int) (string, error) {
 	return strconv.Itoa(rand.Intn(shards)), nil
 }
 
-// Implemented for convenience
+// Implemented for convenience, Randomhashing does NOT support AddNode as the Randomhashing 
+// does NOT need to be ring like for Consistent Hashing.
+// This function will `panic`, as using this function in the client application is not an intended use of 
+// the random Hashing algorithm
 func (h RandomHashing) AddNode(_ string) {
     panic("AddNode method is not implemented for RandomHashing")
 }
 
-// Implemented for convenience
+// Implemented for convenience, Randomhashing does NOT support RemoveNode as the Randomhashing 
+// does NOT need to be ring like for Consistent Hashing.
+// This function will `panic`, as using this function in the client application is not an intended use of 
+// the random Hashing algorithm
 func (h RandomHashing) RemoveNode(_ string) {
     panic("RemoveNode method is not implemented for RandomHashing")
 }
 
-// Implemented for convenience
+// Implemented for convenience, Randomhashing does NOT support SetReplicas as the Randomhashing 
+// does NOT need to be ring like for Consistent Hashing.
+// This function will `panic`, as using this function in the client application is not an intended use of 
+// the random Hashing algorithm
 func (h *RandomHashing) SetReplicas(_ int) {
 	panic("SetReplicas method is not implemented for RandomHashing")
 }
