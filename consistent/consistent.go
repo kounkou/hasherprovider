@@ -41,10 +41,13 @@ type ConsistentHashing struct {
 	Logger   *log.Logger
 }
 
+// SetReplicas set the replicas for the entities to be hashed in the ring
 func (h *ConsistentHashing) SetReplicas(replicas int) {
 	h.Replicas = replicas
 }
 
+// AddNode will add a node or entity in the ring using its hashed value
+// The ring is then ordered by the hashed value and saved in Keys
 func (h *ConsistentHashing) AddNode(node string) {
     h.Logger.Println("[INFO] AddNode ", node)
 
@@ -59,6 +62,8 @@ func (h *ConsistentHashing) AddNode(node string) {
 	})
 }
 
+// RemoveNode will remove a node or entity from the ring. Then we will also 
+// make sure that the Keys are consistent are removal of a node
 func (h *ConsistentHashing) RemoveNode(node string) {
     h.Logger.Println("[INFO] RemoveNode ", node)
 
@@ -73,6 +78,10 @@ func (h *ConsistentHashing) RemoveNode(node string) {
 	}
 }
 
+// GetImmediateNode will return the first node following the given node
+// identified with its key. The node is found going counter clock-wise onto the ring
+// In the case of servers, the Immediate node will represent the server to send 
+// data to.
 func (h *ConsistentHashing) GetImmediateNode(key string) string {
     h.Logger.Println("[INFO] GetImmediateNode ", key)
 
@@ -93,6 +102,7 @@ func (h *ConsistentHashing) GetImmediateNode(key string) string {
 	return h.Nodes[h.Keys[idx]]
 }
 
+// Private function not exported to be able to compute the hash of the provided key
 func (h *ConsistentHashing) computeHash(uuid string) uint32 {
 	hash := fnv.New32a()
 	hash.Write([]byte(uuid))
@@ -102,7 +112,6 @@ func (h *ConsistentHashing) computeHash(uuid string) uint32 {
 // Hash hashes the given input using a graph-based data-structure and keeps a sorted list of nodes
 // and Replicas for faster retrieval.
 // It returns the immediate node index to which the uuid will be assigned
-// TODO : Change parameter list to be a struct so that we can ignore second parameter
 func (h *ConsistentHashing) Hash(uuid string, _ int) (string, error) {
 	if len(uuid) == 0 {
 	    h.Logger.Println("[ERROR] Consistent Hashing ", uuid, " failed")
