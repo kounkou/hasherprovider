@@ -50,17 +50,26 @@ func (h UniformHashing) Hash(uuid string, shards int) (string, error) {
 	return strconv.Itoa(hash % shards), nil
 }
 
-// Implemented for convenience
+// Implemented for convenience, Uniformhashing does NOT support AddNode as the Randomhashing 
+// does NOT need to be ring like for Consistent Hashing.
+// This function will `panic`, as using this function in the client application is not an intended use of 
+// the Uniform Hashing algorithm
 func (h UniformHashing) AddNode(_ string) {
     panic("AddNode method is not implemented for UniformHashing")
 }
 
-// Implemented for convenience
+// Implemented for convenience, Uniformhashing does NOT support RemoveNode as the Randomhashing 
+// does NOT need to be ring like for Consistent Hashing.
+// This function will `panic`, as using this function in the client application is not an intended use of 
+// the Uniform Hashing algorithm
 func (h UniformHashing) RemoveNode(_ string) {
     panic("RemoveNode method is not implemented for UniformHashing")
 }
 
-// Implemented for convenience
+// Implemented for convenience, Uniformhashing does NOT support SetReplicas as the Randomhashing 
+// does NOT need to be ring like for Consistent Hashing.
+// This function will `panic`, as using this function in the client application is not an intended use of 
+// the Uniform Hashing algorithm
 func (h *UniformHashing) SetReplicas(_ int) {
 	panic("SetReplicas method is not implemented for UniformHashing")
 }
