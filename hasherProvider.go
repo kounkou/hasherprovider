@@ -20,16 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package hasherProvider
+package hasherprovider
 
 import (
 	"fmt"
 	"log"
 	"os"
 
-	consistent "github.com/kounkou/hasherProvider/consistent"
-	random "github.com/kounkou/hasherProvider/random"
-	uniform "github.com/kounkou/hasherProvider/uniform"
+	consistent "github.com/kounkou/hasherprovider/consistent"
+	random "github.com/kounkou/hasherprovider/random"
+	uniform "github.com/kounkou/hasherprovider/uniform"
 )
 
 const (
@@ -46,22 +46,22 @@ type Hasher interface {
 }
 
 type HasherProvider struct {
-    Logger *log.Logger
+	Logger *log.Logger
 }
 
 func (h *HasherProvider) GetHasher(hashFunction int) (Hasher, error) {
-    if h.Logger == nil {
-        h.Logger = log.New(os.Stdout, "hasherProvider ", log.LstdFlags)
-        h.Logger.Println("[WARN] Setting default logger")
-    }
+	if h.Logger == nil {
+		h.Logger = log.New(os.Stdout, "hasherprovider ", log.LstdFlags)
+		h.Logger.Println("[WARN] Setting default logger")
+	}
 
-    h.Logger.Println("[INFO] Getting Hasher with hashing algorithm ", hashFunction)
+	h.Logger.Println("[INFO] Getting Hasher with hashing algorithm ", hashFunction)
 
 	hasherMap := h.initHasherMap()
 	hasher, ok := hasherMap[hashFunction]
 
 	if !ok {
-	    h.Logger.Println("[ERROR] Getting the hasher failed for ", hashFunction)
+		h.Logger.Println("[ERROR] Getting the hasher failed for ", hashFunction)
 		return nil, fmt.Errorf("unknown hashing function type: %d", hashFunction)
 	}
 
@@ -71,7 +71,7 @@ func (h *HasherProvider) GetHasher(hashFunction int) (Hasher, error) {
 }
 
 func (h *HasherProvider) initHasherMap() map[int]Hasher {
-    h.Logger.Println("[INFO] InitHasherMap")
+	h.Logger.Println("[INFO] InitHasherMap")
 
 	var hasherMap map[int]Hasher
 

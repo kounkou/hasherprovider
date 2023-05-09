@@ -1,9 +1,9 @@
 package consistent
 
 import (
-	"testing"
 	"log"
 	"os"
+	"testing"
 )
 
 func TestWHEN_AddNodeWithReplicasCalledForConsistentHashFunction_THEN_MatchNumberOfReplicas(t *testing.T) {
@@ -75,11 +75,11 @@ func TestWHEN_AddAndRemoveDifferentNodeWithReplicasCalledForConsistentHashFuncti
 }
 
 func TestWHEN_providedWithEmptyUUID_THEN_ReturnEmptyString(t *testing.T) {
-    h := &ConsistentHashing{
-            Nodes:    make(map[uint32]string),
-            Replicas: 0,
-            Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
-        }
+	h := &ConsistentHashing{
+		Nodes:    make(map[uint32]string),
+		Replicas: 0,
+		Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
+	}
 
 	requestedNode := ""
 
@@ -91,30 +91,29 @@ func TestWHEN_providedWithEmptyUUID_THEN_ReturnEmptyString(t *testing.T) {
 	expected, err := h.Hash(requestedNode, 0)
 
 	if err == nil || len(expected) != 0 {
-	    t.Errorf("Expected the returned node to be empty string, but got `%s`", expected)
+		t.Errorf("Expected the returned node to be empty string, but got `%s`", expected)
 	}
 }
 
-
 func TestWHEN_SetReplicas_THEN_ReplicasCorrectlySet(t *testing.T) {
-    h := &ConsistentHashing{
-            Nodes:    make(map[uint32]string),
-            Replicas: 0,
-            Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
-        }
+	h := &ConsistentHashing{
+		Nodes:    make(map[uint32]string),
+		Replicas: 0,
+		Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
+	}
 
-    h.SetReplicas(100)
-    h.AddNode("test")
+	h.SetReplicas(100)
+	h.AddNode("test")
 
-    if len(h.Nodes) != 100 {
-        t.Errorf("Expected the number of nodes to be a factor of the number of replicas, but got %d", len(h.Nodes))
-    }
+	if len(h.Nodes) != 100 {
+		t.Errorf("Expected the number of nodes to be a factor of the number of replicas, but got %d", len(h.Nodes))
+	}
 
-    h.SetReplicas(1000)
-    h.AddNode("test-server-x")
-    h.AddNode("test-server-y")
+	h.SetReplicas(1000)
+	h.AddNode("test-server-x")
+	h.AddNode("test-server-y")
 
-    if len(h.Nodes) != 2100 {
-        t.Errorf("Expected the number of nodes to be a factor of the number of replicas, but got %d", len(h.Nodes))
-    }
+	if len(h.Nodes) != 2100 {
+		t.Errorf("Expected the number of nodes to be a factor of the number of replicas, but got %d", len(h.Nodes))
+	}
 }
