@@ -24,14 +24,14 @@ package random
 
 import (
 	"errors"
+	"log"
 	"math/rand"
 	"strconv"
 	"time"
-	"log"
 )
 
 type RandomHashing struct {
-    Logger *log.Logger
+	Logger *log.Logger
 }
 
 // Random hashing is used to distribute the uuid's associated (example events...)
@@ -39,7 +39,7 @@ type RandomHashing struct {
 // uuid's across a set of entity (for example servers)
 func (h RandomHashing) Hash(uuid string, shards int) (string, error) {
 	if shards == 0 || len(uuid) == 0 {
-	    h.Logger.Println("[ERROR] Random Hashing ", uuid, " failed with ", shards, " shards")
+		h.Logger.Println("[ERROR] Random Hashing ", uuid, " failed with ", shards, " shards")
 		return "", errors.New("Expected shards to be positive non 0")
 	}
 
@@ -48,25 +48,25 @@ func (h RandomHashing) Hash(uuid string, shards int) (string, error) {
 	return strconv.Itoa(rand.Intn(shards)), nil
 }
 
-// Implemented for convenience, Randomhashing does NOT support AddNode as the Randomhashing 
+// Implemented for convenience, Randomhashing does NOT support AddNode as the Randomhashing
 // does NOT need to be ring like for Consistent Hashing.
-// This function will `panic`, as using this function in the client application is not an intended use of 
+// This function will `panic`, as using this function in the client application is not an intended use of
 // the random Hashing algorithm
 func (h RandomHashing) AddNode(_ string) {
-    panic("AddNode method is not implemented for RandomHashing")
+	panic("AddNode method is not implemented for RandomHashing")
 }
 
-// Implemented for convenience, Randomhashing does NOT support RemoveNode as the Randomhashing 
+// Implemented for convenience, Randomhashing does NOT support RemoveNode as the Randomhashing
 // does NOT need to be ring like for Consistent Hashing.
-// This function will `panic`, as using this function in the client application is not an intended use of 
+// This function will `panic`, as using this function in the client application is not an intended use of
 // the random Hashing algorithm
 func (h RandomHashing) RemoveNode(_ string) {
-    panic("RemoveNode method is not implemented for RandomHashing")
+	panic("RemoveNode method is not implemented for RandomHashing")
 }
 
-// Implemented for convenience, Randomhashing does NOT support SetReplicas as the Randomhashing 
+// Implemented for convenience, Randomhashing does NOT support SetReplicas as the Randomhashing
 // does NOT need to be ring like for Consistent Hashing.
-// This function will `panic`, as using this function in the client application is not an intended use of 
+// This function will `panic`, as using this function in the client application is not an intended use of
 // the random Hashing algorithm
 func (h *RandomHashing) SetReplicas(_ int) {
 	panic("SetReplicas method is not implemented for RandomHashing")

@@ -24,8 +24,8 @@ package uniform
 
 import (
 	"errors"
-	"strconv"
 	"log"
+	"strconv"
 )
 
 type UniformHashing struct {
@@ -39,7 +39,7 @@ type UniformHashing struct {
 // please consider using `consistent hashing`
 func (h UniformHashing) Hash(uuid string, shards int) (string, error) {
 	if shards == 0 || len(uuid) == 0 {
-	    h.Logger.Println("[ERROR] Uniform Hashing ", uuid, " failed with ", shards, " shards")
+		h.Logger.Println("[ERROR] Uniform Hashing ", uuid, " failed with ", shards, " shards")
 		return "", errors.New("Expected shards to be positive non 0")
 	}
 
@@ -50,25 +50,25 @@ func (h UniformHashing) Hash(uuid string, shards int) (string, error) {
 	return strconv.Itoa(hash % shards), nil
 }
 
-// Implemented for convenience, Uniformhashing does NOT support AddNode as the Uniformhashing 
+// Implemented for convenience, Uniformhashing does NOT support AddNode as the Uniformhashing
 // does NOT need to be ring like for Consistent Hashing.
-// This function will `panic`, as using this function in the client application is not an intended use of 
+// This function will `panic`, as using this function in the client application is not an intended use of
 // the Uniform Hashing algorithm
 func (h UniformHashing) AddNode(_ string) {
-    panic("AddNode method is not implemented for UniformHashing")
+	panic("AddNode method is not implemented for UniformHashing")
 }
 
-// Implemented for convenience, Uniformhashing does NOT support RemoveNode as the Uniformhashing 
+// Implemented for convenience, Uniformhashing does NOT support RemoveNode as the Uniformhashing
 // does NOT need to be ring like for Consistent Hashing.
-// This function will `panic`, as using this function in the client application is not an intended use of 
+// This function will `panic`, as using this function in the client application is not an intended use of
 // the Uniform Hashing algorithm
 func (h UniformHashing) RemoveNode(_ string) {
-    panic("RemoveNode method is not implemented for UniformHashing")
+	panic("RemoveNode method is not implemented for UniformHashing")
 }
 
-// Implemented for convenience, Uniformhashing does NOT support SetReplicas as the Uniformhashing 
+// Implemented for convenience, Uniformhashing does NOT support SetReplicas as the Uniformhashing
 // does NOT need to be ring like for Consistent Hashing.
-// This function will `panic`, as using this function in the client application is not an intended use of 
+// This function will `panic`, as using this function in the client application is not an intended use of
 // the Uniform Hashing algorithm
 func (h *UniformHashing) SetReplicas(_ int) {
 	panic("SetReplicas method is not implemented for UniformHashing")

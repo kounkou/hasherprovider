@@ -25,9 +25,9 @@ package consistent
 import (
 	"errors"
 	"hash/fnv"
+	"log"
 	"sort"
 	"strconv"
-	"log"
 )
 
 // With consistent Hashing, the keys already assigned to a shard
@@ -49,7 +49,7 @@ func (h *ConsistentHashing) SetReplicas(replicas int) {
 // AddNode will add a node or entity in the ring using its hashed value
 // The ring is then ordered by the hashed value and saved in Keys
 func (h *ConsistentHashing) AddNode(node string) {
-    h.Logger.Println("[INFO] AddNode ", node)
+	h.Logger.Println("[INFO] AddNode ", node)
 
 	for i := 0; i < h.Replicas; i++ {
 		key := h.computeHash(node + strconv.Itoa(i))
@@ -58,14 +58,14 @@ func (h *ConsistentHashing) AddNode(node string) {
 	}
 
 	sort.Slice(h.Keys, func(i, j int) bool {
-	    return h.Keys[i] < h.Keys[j]
+		return h.Keys[i] < h.Keys[j]
 	})
 }
 
-// RemoveNode will remove a node or entity from the ring. Then we will also 
+// RemoveNode will remove a node or entity from the ring. Then we will also
 // make sure that the Keys are consistent are removal of a node
 func (h *ConsistentHashing) RemoveNode(node string) {
-    h.Logger.Println("[INFO] RemoveNode ", node)
+	h.Logger.Println("[INFO] RemoveNode ", node)
 
 	for i := 0; i < h.Replicas; i++ {
 		key := h.computeHash(node + strconv.Itoa(i))
@@ -80,10 +80,10 @@ func (h *ConsistentHashing) RemoveNode(node string) {
 
 // GetImmediateNode will return the first node following the given node
 // identified with its key. The node is found going counter clock-wise onto the ring
-// In the case of servers, the Immediate node will represent the server to send 
+// In the case of servers, the Immediate node will represent the server to send
 // data to.
 func (h *ConsistentHashing) GetImmediateNode(key string) string {
-    h.Logger.Println("[INFO] GetImmediateNode ", key)
+	h.Logger.Println("[INFO] GetImmediateNode ", key)
 
 	if len(h.Nodes) == 0 {
 		return ""
@@ -114,7 +114,7 @@ func (h *ConsistentHashing) computeHash(uuid string) uint32 {
 // It returns the immediate node index to which the uuid will be assigned
 func (h *ConsistentHashing) Hash(uuid string, _ int) (string, error) {
 	if len(uuid) == 0 {
-	    h.Logger.Println("[ERROR] Consistent Hashing ", uuid, " failed")
+		h.Logger.Println("[ERROR] Consistent Hashing ", uuid, " failed")
 		return "", errors.New("Expected uuid to be non-empty")
 	}
 
