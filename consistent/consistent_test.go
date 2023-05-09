@@ -66,7 +66,7 @@ func TestWHEN_AddAndRemoveDifferentNodeWithReplicasCalledForConsistentHashFuncti
 	actual, err2 := h.Hash(requestedNode, 0)
 
 	if err2 != nil {
-		t.Errorf("Expected no errors to occurr but got %s", err2)
+		t.Errorf("Expected no errors to occur but got %s", err2)
 	}
 
 	if expected != actual && expected != "" {
