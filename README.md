@@ -1,10 +1,10 @@
-[![Go](https://github.com/kounkou/hasherProvider/workflows/Go/badge.svg)](https://github.com/kounkou/hasherProvider/actions?query=workflow%3AGo)
-[![Coverage Status](https://coveralls.io/repos/github/kounkou/hasherProvider/badge.svg?branch=main)](https://coveralls.io/github/kounkou/hasherProvider?branch=main)
-[![Go Report Card](https://goreportcard.com/badge/github.com/kounkou/hasherProvider)](https://goreportcard.com/report/github.com/kounkou/hasherProvider)
-[![gopkg](https://pkg.go.dev/badge/github.com/kounkou/hasherProvider.svg)](https://pkg.go.dev/github.com/kounkou/hasherProvider)
+[![Go](https://github.com/kounkou/hasherprovider/workflows/Go/badge.svg)](https://github.com/kounkou/hasherprovider/actions?query=workflow%3AGo)
+[![Coverage Status](https://coveralls.io/repos/github/kounkou/hasherprovider/badge.svg?branch=main)](https://coveralls.io/github/kounkou/hasherprovider?branch=main)
+[![Go Report Card](https://goreportcard.com/badge/github.com/kounkou/hasherprovider)](https://goreportcard.com/report/github.com/kounkou/hasherprovider)
+[![gopkg](https://pkg.go.dev/badge/github.com/kounkou/hasherprovider.svg)](https://pkg.go.dev/github.com/kounkou/hasherprovider)
 [![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/josuebrunel/clausify/blob/master/LICENSE)
 
-# hasherProvider
+# hasherprovider
 
 The Hasher library implements a hashing algorithm on a given key string or UUID and returns the server to which the request should be sent. 
 Consistent hashing is one such algorithm that minimizes the number of updates required to associate the request with the appropriate server. 
@@ -13,7 +13,7 @@ This addresses the common problem of reassigning servers that arises when using 
 # Installation
 
 ```bash
-go get github.com/kounkou/hasherProvider
+go get github.com/kounkou/hasherprovider
 ```
 
 # Usage
@@ -45,7 +45,7 @@ package main
 
 import (
     "fmt"
-    "github.com/kounkou/hasherProvider"
+    "github.com/kounkou/hasherprovider"
 )
 
 const (
@@ -56,10 +56,10 @@ const (
 
 func main() {
 	// Create a new HasherProvider object
-	hasherProvider := hasherProvider.HasherProvider{ }
+	hasherprovider := hasherprovider.HasherProvider{ }
 
 	// Get the consistent hashing function
-	h, err := hasherProvider.GetHasher(CONSISTENT_HASHING)
+	h, err := hasherprovider.GetHasher(CONSISTENT_HASHING)
 
     	// Set replicas entities
 	h.SetReplicas(1)
