@@ -1,9 +1,9 @@
 package uniform
 
 import (
-	"testing"
 	"log"
 	"os"
+	"testing"
 )
 
 type Tuple struct {
@@ -14,7 +14,7 @@ type Tuple struct {
 
 func TestWHEN_HashFunctionCalledWithNullEvent_THEN_NullPointerExceptionThrown(t *testing.T) {
 	hasher := &UniformHashing{
-	    Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
+		Logger: log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
 	}
 
 	event := ""
@@ -28,7 +28,7 @@ func TestWHEN_HashFunctionCalledWithNullEvent_THEN_NullPointerExceptionThrown(t 
 
 func TestWHEN_HashFunctionCalledWithNullShards_THEN_NullPointerExceptionThrown(t *testing.T) {
 	hasher := &UniformHashing{
-	    Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
+		Logger: log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
 	}
 
 	event := "1"
@@ -42,7 +42,7 @@ func TestWHEN_HashFunctionCalledWithNullShards_THEN_NullPointerExceptionThrown(t
 
 func TestWHEN_HashFunctionCalledWithKeyAndShardNumbers_THEN_ResultMatchesExpected(t *testing.T) {
 	hasher := &UniformHashing{
-	    Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
+		Logger: log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
 	}
 
 	eventList := []Tuple{
@@ -64,55 +64,55 @@ func TestWHEN_HashFunctionCalledWithKeyAndShardNumbers_THEN_ResultMatchesExpecte
 }
 
 func TestUniformHashing_AddNode(t *testing.T) {
-    h := UniformHashing{
-        Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
-    }
+	h := UniformHashing{
+		Logger: log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
+	}
 
-    expectedError := "AddNode method is not implemented for UniformHashing"
+	expectedError := "AddNode method is not implemented for UniformHashing"
 
-    defer func() {
-        if r := recover(); r == nil {
-            t.Errorf("AddNode did not panic with error message '%s'", expectedError)
-        } else if r != expectedError {
-            t.Errorf("AddNode panicked with error message '%s', but expected '%s'", r, expectedError)
-        }
-    }()
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("AddNode did not panic with error message '%s'", expectedError)
+		} else if r != expectedError {
+			t.Errorf("AddNode panicked with error message '%s', but expected '%s'", r, expectedError)
+		}
+	}()
 
-    h.AddNode("node")
+	h.AddNode("node")
 }
 
 func TestUniformHashing_RemoveNode(t *testing.T) {
-    h := UniformHashing{
-        Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
-    }
+	h := UniformHashing{
+		Logger: log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
+	}
 
-    expectedError := "RemoveNode method is not implemented for UniformHashing"
+	expectedError := "RemoveNode method is not implemented for UniformHashing"
 
-    defer func() {
-        if r := recover(); r == nil {
-            t.Errorf("RemoveNode did not panic with error message '%s'", expectedError)
-        } else if r != expectedError {
-            t.Errorf("RemoveNode panicked with error message '%s', but expected '%s'", r, expectedError)
-        }
-    }()
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("RemoveNode did not panic with error message '%s'", expectedError)
+		} else if r != expectedError {
+			t.Errorf("RemoveNode panicked with error message '%s', but expected '%s'", r, expectedError)
+		}
+	}()
 
-    h.RemoveNode("node")
+	h.RemoveNode("node")
 }
 
 func TestUniformHashing_SetReplicas(t *testing.T) {
-    h := UniformHashing{
-        Logger:   log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
-    }
+	h := UniformHashing{
+		Logger: log.New(os.Stdout, "hashProfiler: ", log.LstdFlags),
+	}
 
-    expectedError := "SetReplicas method is not implemented for UniformHashing"
+	expectedError := "SetReplicas method is not implemented for UniformHashing"
 
-    defer func() {
-        if r := recover(); r == nil {
-            t.Errorf("SetReplicas did not panic with error message '%s'", expectedError)
-        } else if r != expectedError {
-            t.Errorf("SetReplicas panicked with error message '%s', but expected '%s'", r, expectedError)
-        }
-    }()
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("SetReplicas did not panic with error message '%s'", expectedError)
+		} else if r != expectedError {
+			t.Errorf("SetReplicas panicked with error message '%s', but expected '%s'", r, expectedError)
+		}
+	}()
 
-    h.SetReplicas(4)
+	h.SetReplicas(4)
 }
