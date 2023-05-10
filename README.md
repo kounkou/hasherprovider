@@ -2,7 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/kounkou/hasherprovider/badge.svg?branch=main)](https://coveralls.io/github/kounkou/hasherprovider?branch=main)
 [![Go Report Card](https://goreportcard.com/badge/github.com/kounkou/hasherprovider)](https://goreportcard.com/report/github.com/kounkou/hasherprovider)
 [![gopkg](https://pkg.go.dev/badge/github.com/kounkou/hasherprovider.svg)](https://pkg.go.dev/github.com/kounkou/hasherprovider)
-[![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/josuebrunel/clausify/blob/master/LICENSE)
+[![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/kounkou/hasherprovider/blob/master/LICENSE)
 
 # hasherprovider
 
