@@ -9,6 +9,7 @@
 The Hasher library implements 3 hashing algorithms (Consistent, Uniform and Random) on a given key string or UUID and returns the index (for Uniform and Random algorithms), and the string of the node (for Consistent algorithm) to which the given string should be mapped.
 Consistent hashing is one such algorithm that minimizes the number of updates required to associate the request with the appropriate server. 
 This addresses the common problem of reassigning servers that arises when using the modulo operation.
+A table comparing the 3 different algorithms is given below.
 
 # Installation
 
